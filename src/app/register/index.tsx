@@ -37,7 +37,7 @@ export default function Connect() {
 
   return (
     <View className="flex-1 items-center justify-center">
-      <Text className="text-2xl font-bold mb-4">Salut 👋</Text>
+      <Text className="text-2xl font-bold mb-4">Bienvenue 👋</Text>
       <TextInput
         ref={usernameRef}
         placeholder="Adresse mail"
@@ -50,8 +50,8 @@ export default function Connect() {
         secureTextEntry
         className="bg-white border rounded-md px-4 py-2 mb-4 w-80"
       />
-      <Link className="underline" href="/register">
-        Pas de compte ? S'enregistrer
+      <Link className="underline" href="/connect">
+        Déjà un compte ? Se connecter
       </Link>
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" className="mt-4" />
@@ -60,7 +60,7 @@ export default function Connect() {
           className="bg-blue-500 py-3 px-6 rounded-lg mt-4"
           onPress={onLogin}
         >
-          <Text className="text-white font-bold text-lg">Connexion</Text>
+          <Text className="text-white font-bold text-lg">S'enregistrer</Text>
         </TouchableOpacity>
       )}
     </View>

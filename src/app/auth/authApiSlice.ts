@@ -1,4 +1,3 @@
-import { User } from "../../models/user";
 import { apiSlice } from "../api/apiSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
