@@ -1,6 +1,5 @@
 import { View, Text } from "react-native";
 import { Link, Redirect } from "expo-router";
-import { User } from "../models/user";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "./auth/authSlice";
 
