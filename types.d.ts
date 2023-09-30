@@ -17,9 +17,9 @@ type Admin = {
 };
 
 type User = {
-  role: "recruteur" | "admin";
-  recruteur?: Recruteur;
-  admin?: Admin;
+  role: "Recruiter" | "Administrator";
+  recruiter?: Recruiter;
+  administrator?: Admin;
   id: string;
   mail: string;
   password: string;
