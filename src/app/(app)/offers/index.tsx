@@ -12,7 +12,7 @@ export default function Offers() {
   );
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <Text>Loading offers...</Text>;
   }
 
   return (
