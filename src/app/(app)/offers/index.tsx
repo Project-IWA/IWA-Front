@@ -7,7 +7,7 @@ import { router } from "expo-router";
 export default function Offers() {
   const { isLoading } = useGetOffersQuery();
 
-  const offers: Offer[] = useSelector((state: RootState) =>
+  const offers: Offre[] = useSelector((state: RootState) =>
     selectAllOffers(state)
   );
 
@@ -16,9 +16,9 @@ export default function Offers() {
   }
 
   return (
-    <FlatList<Offer>
+    <FlatList<Offre>
       data={offers}
-      keyExtractor={(item: Offer) => item.id}
+      keyExtractor={(item: Offre) => item.id as string}
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => router.push(`/offers/${item.id}`)}>
           <View>

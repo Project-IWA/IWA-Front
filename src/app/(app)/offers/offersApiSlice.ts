@@ -3,7 +3,7 @@ import { apiSlice } from "../../api/apiSlice";
 import { RootState } from "../../store";
 
 export const offersAdapter = createEntityAdapter({
-  selectId: (instance: Offer) => instance.id,
+  selectId: (instance: Offre) => instance.id as string,
   sortComparer: false,
 });
 
@@ -22,7 +22,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     addNewOffer: builder.mutation({
-      query: (initialOffer: Offer) => ({
+      query: (initialOffer: Offre) => ({
         url: "/offer",
         method: "POST",
         body: {
@@ -32,7 +32,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: "Offer", id: "LIST" }],
     }),
     updateOffer: builder.mutation({
-      query: (initialOffer: Offer) => ({
+      query: (initialOffer: Offre) => ({
         url: `/offer/id/${initialOffer.id}`,
         method: "PUT",
         body: {

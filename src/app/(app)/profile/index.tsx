@@ -5,7 +5,7 @@ import { View, Text } from "react-native";
 export default function Profile() {
   const user: User | null = useSelector(selectCurrentUser) as User;
 
-  if (user.role === "Administrator") {
+  if (user.role === "Admin") {
     return (
       <View>
         <Text className="text-2xl font-bold mb-4">{user.role}</Text>
@@ -15,68 +15,50 @@ export default function Profile() {
     );
   }
 
-  const recruiter = user.recruiter as Recruiter;
-  const {
-    prenom,
-    nom,
-    tel,
-    addresse,
-    siret,
-    justificatif,
-    formule,
-    dateDebut,
-    dateFin,
-    etablissement,
-  } = recruiter;
-  const { streetNum, street, complement, zipCode, city, country } = addresse;
-  const { nom: etablissementNom } = etablissement;
-  const { type: formuleType } = formule;
-
   return (
     <View className="bg-white rounded-lg p-6 shadow-md m-4">
       <Text className="text-2xl font-bold mb-4">Informations du Recruteur</Text>
       <View className="flex mb-2">
         <Text className="font-semibold">Prénom: </Text>
-        <Text>{prenom}</Text>
+        <Text>{user.prenom}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Nom: </Text>
-        <Text>{nom}</Text>
+        <Text>{user.nom}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Téléphone: </Text>
-        <Text>{tel}</Text>
+        <Text>{user.tel}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Adresse: </Text>
         <Text>
-          {streetNum} {street}, {complement && `${complement}, `}
-          {zipCode} {city}, {country}
+          {user.numRue} {user.rue},{user.codePostal} {user.ville}, {user.pays}
         </Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">SIRET: </Text>
-        <Text>{siret}</Text>
+        <Text>{user.siret}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Justificatif: </Text>
-        <Text>{justificatif}</Text>
+        <Text>{user.justificatif}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Formule: </Text>
-        <Text>{formuleType}</Text>
+        <Text>{user.formule?.nom}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Date de début: </Text>
-        <Text>{dateDebut.toString()}</Text>
+        <Text>{user.dateDebut!.toString()}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Date de fin: </Text>
-        <Text>{dateFin.toString()}</Text>
+        <Text>{user.dateFin!.toString()}</Text>
       </View>
       <View className="flex mb-2">
         <Text className="font-semibold">Établissement: </Text>
-        <Text>{etablissementNom}</Text>
+        <Text>{user.etablissement?.nom}</Text>
       </View>
     </View>
   );

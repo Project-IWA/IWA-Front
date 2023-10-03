@@ -7,7 +7,7 @@ import { View, Text } from "react-native";
 export default function Offer() {
   const { offer: offerId } = useLocalSearchParams() as { offer: string };
 
-  const offer: Offer | undefined = useSelector((state: RootState) =>
+  const offer: Offre | undefined = useSelector((state: RootState) =>
     selectOfferById(state, offerId)
   );
 
@@ -29,12 +29,12 @@ export default function Offer() {
       <Text className="text-lg font-semibold mb-2">Avantages:</Text>
       <Text className="mb-4">{offer.avantages.join(", ")}</Text>
       <Text className="text-lg font-semibold mb-2">Status:</Text>
-      <Text className="mb-4">{offer.status}</Text>
+      <Text className="mb-4">{offer.etat}</Text>
       <Text className="text-lg font-semibold mb-2">Nombre de candidats:</Text>
       <Text className="mb-4">{offer.nbCandidats}</Text>
       <Text className="text-lg font-semibold mb-2">Recruteur:</Text>
       <Text>
-        {offer.user.nom} {offer.user.prenom}
+        {offer.recruteur.nom} {offer.recruteur.prenom}
       </Text>
     </View>
   );
