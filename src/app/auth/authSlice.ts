@@ -7,7 +7,33 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: {
+    id: "1",
+    prenom: "John",
+    nom: "Doe",
+    mail: "john.doe@example.com",
+    password: "motdepasse123",
+    role: "Recruteur",
+    tel: "0123456789",
+    numRue: "123",
+    rue: "Rue de la République",
+    codePostal: "75001",
+    ville: "Paris",
+    pays: "France",
+    siret: "12345678900001",
+    justificatif: "path/vers/justificatif.pdf",
+    valide: true,
+    formule: {
+      id: "1",
+      nom: "Premium",
+    },
+    dateDebut: new Date("2023-01-01"),
+    dateFin: new Date("2023-12-31"),
+    etablissement: {
+      id: "1",
+      nom: "Polytech Montpellier",
+    },
+  },
 };
 
 const authSlice = createSlice({

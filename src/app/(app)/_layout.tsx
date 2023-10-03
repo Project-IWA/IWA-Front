@@ -1,4 +1,4 @@
-import { Link, Redirect, Stack } from "expo-router";
+import { Link, Redirect, Slot } from "expo-router";
 import { selectCurrentUser, setUser } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -8,9 +8,11 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function AppLayout() {
-  const { data: fetchData, isLoading } = useAuthQuery();
+  //const { data: fetchData, isLoading } = useAuthQuery();
 
   const user: User | null = useSelector(selectCurrentUser);
+
+  /*
 
   const dispatch = useDispatch();
 
@@ -23,16 +25,17 @@ export default function AppLayout() {
   if (isLoading) {
     return <Text>Loading layout...</Text>;
   }
+  */
 
-  /*
   if (!user) {
     return <Redirect href="/connect" />;
   }
-  */
 
   return (
-    <View style={{ flex: 1 }}>
-      <Stack />
+    <View className="flex-1">
+      <View className="flex-1">
+        <Slot />
+      </View>
       <View className="flex-row justify-around p-4 bg-white-300">
         <Link href="/offers">
           <FontAwesome5 name="list" size={24} color="black" />

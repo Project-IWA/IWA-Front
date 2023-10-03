@@ -5,29 +5,40 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
 
 export default function Offers() {
-  const { isLoading } = useGetOffersQuery();
+  //const { isLoading } = useGetOffersQuery();
 
-  const offers: Offre[] = useSelector((state: RootState) =>
+  const offres: Offre[] = useSelector((state: RootState) =>
     selectAllOffers(state)
   );
 
+  /*
   if (isLoading) {
     return <Text>Loading offers...</Text>;
   }
+  */
 
   return (
-    <FlatList<Offre>
-      data={offers}
-      keyExtractor={(item: Offre) => item.id as string}
-      renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => router.push(`/offers/${item.id}`)}>
-          <View>
-            <Text>{item.emploi}</Text>
-            <Text>{`${item.dateDebut} - ${item.dateFin}`}</Text>
-            <Text>{item.salaire} €</Text>
-          </View>
-        </TouchableOpacity>
-      )}
-    />
+    <View className="flex-1 items-center justify-center mt-12">
+      <Text className="text-2xl font-bold mb-4">Vos Offres</Text>
+      <FlatList<Offre>
+        data={offres}
+        keyExtractor={(item: Offre) => item.id as string}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => router.push(`/offers/${item.id}`)}>
+            <View className="bg-white p-4 rounded-lg shadow-md">
+              <Text className="text-xl font-semibold mb-2">{item.emploi}</Text>
+              <Text className="text-gray-500 mb-2">
+                {`${item.dateDebut.toISOString().slice(0, 10)} - ${item.dateFin
+                  .toISOString()
+                  .slice(0, 10)}`}
+              </Text>
+              <Text className="text-blue-600 font-bold text-lg mb-2">
+                {item.salaire} €
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
   );
 }

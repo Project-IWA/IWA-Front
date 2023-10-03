@@ -16,50 +16,38 @@ export default function Profile() {
   }
 
   return (
-    <View className="bg-white rounded-lg p-6 shadow-md m-4">
-      <Text className="text-2xl font-bold mb-4">Informations du Recruteur</Text>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Prénom: </Text>
-        <Text>{user.prenom}</Text>
-      </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Nom: </Text>
-        <Text>{user.nom}</Text>
-      </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Téléphone: </Text>
-        <Text>{user.tel}</Text>
-      </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Adresse: </Text>
-        <Text>
-          {user.numRue} {user.rue},{user.codePostal} {user.ville}, {user.pays}
+    <View className="bg-white rounded-lg p-6 shadow-md m-4 mt-12">
+      <View className="flex justify-center items-center">
+        <Text className="text-2xl font-bold mb-4">
+          {user.prenom} {user.nom}
         </Text>
       </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">SIRET: </Text>
-        <Text>{user.siret}</Text>
+      <View className="mb-4">
+        <Text>{user.tel}</Text>
+        <Text>
+          {user.numRue} {user.rue}, {user.codePostal} {user.ville}, {user.pays}
+        </Text>
       </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Justificatif: </Text>
-        <Text>{user.justificatif}</Text>
+      <View className="mb-4">
+        <Text className="font-semibold">SIRET: {user.siret}</Text>
+        <Text className="font-semibold">Justificatif: {user.justificatif}</Text>
       </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Formule: </Text>
-        <Text>{user.formule?.nom}</Text>
+      <View className="mb-4">
+        <Text className="font-semibold">Formule: {user.formule?.nom}</Text>
+        <Text className="font-semibold">
+          Début: {user.dateDebut?.toISOString().slice(0, 10)}
+        </Text>
+        <Text className="font-semibold">
+          Fin: {user.dateFin?.toISOString().slice(0, 10)}
+        </Text>
       </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Date de début: </Text>
-        <Text>{user.dateDebut!.toString()}</Text>
-      </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Date de fin: </Text>
-        <Text>{user.dateFin!.toString()}</Text>
-      </View>
-      <View className="flex mb-2">
-        <Text className="font-semibold">Établissement: </Text>
-        <Text>{user.etablissement?.nom}</Text>
-      </View>
+      {user.etablissement && (
+        <View className="mb-4">
+          <Text className="font-semibold">
+            Établissement: {user.etablissement?.nom}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

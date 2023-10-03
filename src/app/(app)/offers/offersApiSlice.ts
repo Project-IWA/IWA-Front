@@ -7,7 +7,43 @@ export const offersAdapter = createEntityAdapter({
   sortComparer: false,
 });
 
-export const initialState = offersAdapter.getInitialState();
+export const initialState = offersAdapter.setAll(
+  offersAdapter.getInitialState(),
+  [
+    {
+      id: "1",
+      emploi: "Développeur Front-end",
+      dateDebut: new Date("2023-10-01"),
+      dateFin: new Date("2023-12-31"),
+      salaire: 55000,
+      avantages: ["Assurance santé", "Télétravail"],
+      etat: "Ouverte",
+      nbCandidats: 15,
+      recruteur: "1",
+      etablissement: {
+        id: "1",
+        nom: "Entreprise A",
+      },
+      description: "Description de l'offre 1",
+    },
+    {
+      id: "2",
+      emploi: "Ingénieur en Informatique",
+      dateDebut: new Date("2023-11-15"),
+      dateFin: new Date("2024-03-15"),
+      salaire: 60000,
+      avantages: ["Assurance santé", "Tickets restaurant"],
+      etat: "Ouverte",
+      nbCandidats: 10,
+      recruteur: "1",
+      etablissement: {
+        id: "2",
+        nom: "Entreprise B",
+      },
+      description: "Description de l'offre 2",
+    },
+  ]
+);
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({

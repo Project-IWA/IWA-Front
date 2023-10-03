@@ -39,7 +39,7 @@ type Offre = {
   avantages: string[];
   etat: string;
   nbCandidats: number;
-  recruteur: User;
+  recruteur: string;
   etablissement: Etablissement;
   description: string;
 };

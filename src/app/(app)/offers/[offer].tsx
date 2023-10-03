@@ -16,26 +16,50 @@ export default function Offer() {
   }
 
   return (
-    <View className="p-4">
-      <Text className="text-2xl font-bold mb-4">{offer.emploi}</Text>
-      <Text className="text-lg font-semibold mb-2">Description:</Text>
-      <Text className="mb-4">{offer.description}</Text>
-      <Text className="text-lg font-semibold mb-2">Date de début:</Text>
-      <Text className="mb-4">{offer.dateDebut.toString()}</Text>
-      <Text className="text-lg font-semibold mb-2">Date de fin:</Text>
-      <Text className="mb-4">{offer.dateFin.toString()}</Text>
-      <Text className="text-lg font-semibold mb-2">Salaire:</Text>
-      <Text className="mb-4">{offer.salaire} €</Text>
-      <Text className="text-lg font-semibold mb-2">Avantages:</Text>
-      <Text className="mb-4">{offer.avantages.join(", ")}</Text>
-      <Text className="text-lg font-semibold mb-2">Status:</Text>
-      <Text className="mb-4">{offer.etat}</Text>
-      <Text className="text-lg font-semibold mb-2">Nombre de candidats:</Text>
-      <Text className="mb-4">{offer.nbCandidats}</Text>
-      <Text className="text-lg font-semibold mb-2">Recruteur:</Text>
-      <Text>
-        {offer.recruteur.nom} {offer.recruteur.prenom}
-      </Text>
+    <View className="p-6 bg-white rounded-lg shadow-md flex flex-col items-center mt-8">
+      <Text className="text-3xl font-bold mb-4">{offer.emploi}</Text>
+      <View className="flex flex-row mb-2">
+        <Text className="text-lg font-semibold text-gray-600 mr-2">
+          Date de début:
+        </Text>
+        <Text className="text-lg text-gray-900">
+          {offer.dateDebut.toISOString().slice(0, 10)}
+        </Text>
+      </View>
+      <View className="flex flex-row mb-2">
+        <Text className="text-lg font-semibold text-gray-600 mr-2">
+          Date de fin:
+        </Text>
+        <Text className="text-lg text-gray-900">
+          {offer.dateFin.toISOString().slice(0, 10)}
+        </Text>
+      </View>
+      <View className="flex flex-row mb-2">
+        <Text className="text-lg font-semibold text-gray-600 mr-2">
+          Salaire:
+        </Text>
+        <Text className="text-lg text-gray-900">{offer.salaire} €</Text>
+      </View>
+      <View className="flex flex-row mb-2">
+        <Text className="text-lg font-semibold text-gray-600 mr-2">
+          Avantages:
+        </Text>
+        <Text className="text-lg text-gray-900">
+          {offer.avantages.join(", ")}
+        </Text>
+      </View>
+      <View className="flex flex-row mb-2">
+        <Text className="text-lg font-semibold text-gray-600 mr-2">
+          Statut:
+        </Text>
+        <Text className="text-lg text-gray-900">{offer.etat}</Text>
+      </View>
+      <View className="flex flex-row mb-2">
+        <Text className="text-lg font-semibold text-gray-600 mr-2">
+          Nombre de candidats:
+        </Text>
+        <Text className="text-lg text-gray-900">{offer.nbCandidats}</Text>
+      </View>
     </View>
   );
 }
