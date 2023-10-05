@@ -1,68 +1,68 @@
-import { useRef } from "react";
-import {
-  ActivityIndicator,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
 import { useLoginMutation } from "../auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";
 import { Link, router } from "expo-router";
 import { setToken } from "../../utils/token";
+import { useSelector } from "react-redux";
+import { selectCurrentRegisteringUser } from "./registerSlice";
+import Credentials from "./Credentials";
+import PersonalInfos from "./PersonalInfos";
+import Etablissement from "./Etablissement";
 
-export default function Connect() {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-
+export default function Register() {
   const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
 
-  async function onLogin() {
+  const registeringUser: Registering = useSelector(
+    selectCurrentRegisteringUser
+  );
+
+  function getPage() {
+    switch (registeringUser.currentPage) {
+      case 0:
+        return <Credentials />;
+      case 1:
+        return <PersonalInfos />;
+      case 2:
+        return <Etablissement />;
+    }
+  }
+
+  async function onRegister() {
     try {
       const logResult = await login({
-        username: (usernameRef.current as any).value,
-        password: (passwordRef.current as any).value,
+        username: registeringUser.username,
+        password: registeringUser.password,
       }).unwrap();
       const { user, token } = logResult;
       setToken(token);
       dispatch(setUser({ user }));
-      router.replace("/home");
+      router.push("/home");
     } catch (err: any) {
       console.error("Error", err.message);
     }
   }
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="flex-1 items-center justify-center mt-16">
       <Text className="text-2xl font-bold mb-4">Bienvenue 👋</Text>
-      <TextInput
-        ref={usernameRef}
-        placeholder="Adresse mail"
-        autoCapitalize="none"
-        className="bg-white border rounded-md px-4 py-2 mb-4 w-80"
-      />
-      <TextInput
-        ref={passwordRef}
-        placeholder="Mot de passe"
-        secureTextEntry
-        className="bg-white border rounded-md px-4 py-2 mb-4 w-80"
-      />
+      {getPage()}
       <Link className="underline" href="/connect">
         Déjà un compte ? Se connecter
       </Link>
-      {isLoading ? (
+      {/*isLoading ? (
         <ActivityIndicator size="large" color="blue" className="mt-4" />
       ) : (
         <TouchableOpacity
           className="bg-blue-500 py-3 px-6 rounded-lg mt-4"
-          onPress={onLogin}
+          onPress={onRegister}
         >
           <Text className="text-white font-bold text-lg">S'enregistrer</Text>
         </TouchableOpacity>
-      )}
+      )*/}
     </View>
   );
 }

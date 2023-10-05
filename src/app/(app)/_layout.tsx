@@ -1,19 +1,22 @@
 import { Link, Redirect, Slot } from "expo-router";
 import { selectCurrentUser, setUser } from "../auth/authSlice";
 import { useSelector } from "react-redux";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { View, Text } from "react-native";
 import { useAuthQuery } from "../auth/authApiSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { usePathname } from "expo-router";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faAdd, faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function AppLayout() {
   //const { data: fetchData, isLoading } = useAuthQuery();
 
   const user: User | null = useSelector(selectCurrentUser);
 
-  /*
+  const pathname = usePathname();
 
+  /*
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,7 +30,7 @@ export default function AppLayout() {
   }
   */
 
-  if (!user) {
+  if (user) {
     return <Redirect href="/connect" />;
   }
 
@@ -38,10 +41,25 @@ export default function AppLayout() {
       </View>
       <View className="flex-row justify-around p-4 bg-white-300">
         <Link href="/offers">
-          <FontAwesome5 name="list" size={24} color="black" />
+          <FontAwesomeIcon
+            icon={faHome}
+            size={24}
+            color={pathname === "/offers" ? "rgb(37 99 235)" : "gray"}
+          />
+        </Link>
+        <Link href="/add">
+          <FontAwesomeIcon
+            icon={faAdd}
+            size={24}
+            color={pathname === "/add" ? "rgb(37 99 235)" : "gray"}
+          />
         </Link>
         <Link href="/profile">
-          <FontAwesome5 name="user-alt" size={24} color="black" />
+          <FontAwesomeIcon
+            icon={faUser}
+            size={24}
+            color={pathname === "/profile" ? "rgb(37 99 235)" : "gray"}
+          />
         </Link>
       </View>
     </View>
