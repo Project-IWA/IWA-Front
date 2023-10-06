@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState } from "react";
 import {
   ActivityIndicator,
   TextInput,
@@ -13,8 +13,8 @@ import { Link, router } from "expo-router";
 import { setToken } from "../../utils/token";
 
 export default function Connect() {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const dispatch = useDispatch();
 
@@ -23,8 +23,8 @@ export default function Connect() {
   async function onLogin() {
     try {
       const logResult = await login({
-        username: (usernameRef.current as any).value,
-        password: (passwordRef.current as any).value,
+        username,
+        password,
       }).unwrap();
       const { user, token } = logResult;
       setToken(token);
@@ -35,17 +35,21 @@ export default function Connect() {
     }
   }
 
+  const canSave = [username, password].every(Boolean);
+
   return (
     <View className="flex-1 items-center justify-center">
       <Text className="text-2xl font-bold mb-4">Salut 👋</Text>
       <TextInput
-        ref={usernameRef}
+        value={username}
+        onChangeText={(text) => setUsername(text)}
         placeholder="Adresse mail"
         autoCapitalize="none"
         className="bg-white border rounded-md px-4 py-2 mb-4 w-80"
       />
       <TextInput
-        ref={passwordRef}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
         placeholder="Mot de passe"
         secureTextEntry
         className="bg-white border rounded-md px-4 py-2 mb-4 w-80"
@@ -57,8 +61,11 @@ export default function Connect() {
         <ActivityIndicator size="large" color="blue" className="mt-4" />
       ) : (
         <TouchableOpacity
-          className="bg-blue-500 py-3 px-6 rounded-lg mt-4"
+          className={`${
+            canSave ? "bg-blue-500" : "bg-gray-400"
+          } py-3 px-6 rounded-lg mt-4`}
           onPress={onLogin}
+          disabled={!canSave}
         >
           <Text className="text-white font-bold text-lg">Connexion</Text>
         </TouchableOpacity>

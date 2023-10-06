@@ -51,6 +51,7 @@ export default function Credentials() {
           canSave ? "bg-blue-500" : "bg-gray-400"
         } py-3 px-6 rounded-lg mt-4`}
         onPress={() => dispatch(setCurrentPage(1))}
+        disabled={!canSave}
       >
         <Text className="text-white font-bold text-lg">Continuer</Text>
       </TouchableOpacity>
