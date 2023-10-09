@@ -17,7 +17,7 @@ export default function Offer() {
   }
 
   return (
-    <View className="p-6 m-4 bg-lime-300 rounded-lg shadow-black flex flex-col mt-8">
+    <View className="p-6 m-4 bg-gray-200 rounded-lg shadow-black flex flex-col mt-8">
       <Text className="text-3xl font-bold mb-4">{offer.emploi}</Text>
       <View className="flex flex-row mb-2">
         <Text className="text-lg font-semibold text-gray-600 mr-2">

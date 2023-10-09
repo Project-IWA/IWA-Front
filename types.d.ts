@@ -60,3 +60,16 @@ type Registering = {
   currentPage: number;
   etablissement: Etablissement;
 };
+
+type Attribution = {
+  id?: string;
+  candidat: string;
+  note: number;
+  etat: "attente" | "en cours" | "terminée";
+};
+
+type Notification = {
+  offre: string;
+  firstName: string;
+  lastName: string;
+};

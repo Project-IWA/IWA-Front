@@ -25,18 +25,19 @@ export default function Offers() {
         data={offres}
         keyExtractor={(item: Offre) => item.id as string}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => router.push(`/offers/${item.id}`)}>
-            <View className="bg-white p-4 rounded-lg shadow-md ml-4">
-              <Text className="text-xl font-semibold mb-2">{item.emploi}</Text>
-              <Text className="text-gray-500 mb-2">
-                {`${item.dateDebut.toISOString().slice(0, 10)} - ${item.dateFin
-                  .toISOString()
-                  .slice(0, 10)}`}
-              </Text>
-              <Text className="text-blue-600 font-bold text-lg mb-2">
-                {item.salaire} €
-              </Text>
-            </View>
+          <TouchableOpacity
+            className="p-4 rounded-lg shadow-md mx-4 my-2 bg-gray-200"
+            onPress={() => router.push(`/offers/${item.id}`)}
+          >
+            <Text className="text-xl font-semibold mb-2">{item.emploi}</Text>
+            <Text className="text-gray-500 mb-2">
+              {`${item.dateDebut.toISOString().slice(0, 10)} - ${item.dateFin
+                .toISOString()
+                .slice(0, 10)}`}
+            </Text>
+            <Text className="text-blue-600 font-bold text-lg mb-2">
+              {item.salaire} €
+            </Text>
           </TouchableOpacity>
         )}
       />

@@ -161,3 +161,8 @@ export const {
 } = offersAdapter.getSelectors(
   (state: RootState) => selectOffersData(state) ?? initialState
 );
+
+export const selectAttributionsByUser = createSelector(
+  selectAllOffers,
+  (allOffers: Offre[]) => allOffers.filter((offer: Offre) => true) // A CHANGER
+);

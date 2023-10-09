@@ -7,7 +7,13 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { usePathname } from "expo-router";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faAdd, faHome, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAdd,
+  faHome,
+  faUser,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
+import NotificationBadge from "./NotificationBadge";
 
 export default function AppLayout() {
   //const { data: fetchData, isLoading } = useAuthQuery();
@@ -47,6 +53,13 @@ export default function AppLayout() {
             color={pathname === "/offers" ? "rgb(37 99 235)" : "gray"}
           />
         </Link>
+        <Link href="/messages">
+          <FontAwesomeIcon
+            icon={faEnvelope}
+            size={24}
+            color={pathname === "/messages" ? "rgb(37 99 235)" : "gray"}
+          />
+        </Link>
         <Link href="/add">
           <FontAwesomeIcon
             icon={faAdd}
@@ -54,6 +67,7 @@ export default function AppLayout() {
             color={pathname === "/add" ? "rgb(37 99 235)" : "gray"}
           />
         </Link>
+        <NotificationBadge pathname={pathname} />
         <Link href="/profile">
           <FontAwesomeIcon
             icon={faUser}
