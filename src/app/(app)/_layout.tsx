@@ -30,7 +30,7 @@ export default function AppLayout() {
   }
   */
 
-  if (user) {
+  if (!user) {
     return <Redirect href="/connect" />;
   }
 

@@ -21,11 +21,12 @@ export default function Offers() {
     <View className="flex-1 items-center justify-center mt-12">
       <Text className="text-2xl font-bold mb-4">Vos Offres</Text>
       <FlatList<Offre>
+        className="w-full"
         data={offres}
         keyExtractor={(item: Offre) => item.id as string}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => router.push(`/offers/${item.id}`)}>
-            <View className="bg-white p-4 rounded-lg shadow-md">
+            <View className="bg-white p-4 rounded-lg shadow-md ml-4">
               <Text className="text-xl font-semibold mb-2">{item.emploi}</Text>
               <Text className="text-gray-500 mb-2">
                 {`${item.dateDebut.toISOString().slice(0, 10)} - ${item.dateFin

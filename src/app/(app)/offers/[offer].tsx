@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { selectOfferById } from "./offersApiSlice";
 import { View, Text } from "react-native";
+import { Link } from "expo-router";
 
 export default function Offer() {
   const { offer: offerId } = useLocalSearchParams() as { offer: string };
@@ -16,7 +17,7 @@ export default function Offer() {
   }
 
   return (
-    <View className="p-6 bg-white rounded-lg shadow-md flex flex-col items-center mt-8">
+    <View className="p-6 m-4 bg-lime-300 rounded-lg shadow-black flex flex-col mt-8">
       <Text className="text-3xl font-bold mb-4">{offer.emploi}</Text>
       <View className="flex flex-row mb-2">
         <Text className="text-lg font-semibold text-gray-600 mr-2">
@@ -44,9 +45,13 @@ export default function Offer() {
         <Text className="text-lg font-semibold text-gray-600 mr-2">
           Avantages:
         </Text>
-        <Text className="text-lg text-gray-900">
-          {offer.avantages.join(", ")}
-        </Text>
+        <View className="flex flex-column">
+          {offer.avantages.map((avantage: string) => (
+            <Text key={avantage} className="text-lg text-gray-900">
+              {avantage}
+            </Text>
+          ))}
+        </View>
       </View>
       <View className="flex flex-row mb-2">
         <Text className="text-lg font-semibold text-gray-600 mr-2">
@@ -54,12 +59,14 @@ export default function Offer() {
         </Text>
         <Text className="text-lg text-gray-900">{offer.etat}</Text>
       </View>
-      <View className="flex flex-row mb-2">
-        <Text className="text-lg font-semibold text-gray-600 mr-2">
-          Nombre de candidats:
+      <Link
+        href={`/candidates/offer/${offerId}`}
+        className="bg-blue-500 py-3 px-6 rounded-lg"
+      >
+        <Text className="text-white text-center font-bold text-lg">
+          Voir les {offer.nbCandidats} candidats
         </Text>
-        <Text className="text-lg text-gray-900">{offer.nbCandidats}</Text>
-      </View>
+      </Link>
     </View>
   );
 }
