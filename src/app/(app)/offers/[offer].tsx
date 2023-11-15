@@ -45,13 +45,7 @@ export default function Offer() {
         <Text className="text-lg font-semibold text-gray-600 mr-2">
           Avantages:
         </Text>
-        <View className="flex flex-column">
-          {offer.avantages.map((avantage: string) => (
-            <Text key={avantage} className="text-lg text-gray-900">
-              {avantage}
-            </Text>
-          ))}
-        </View>
+        <Text className="text-lg text-gray-900">{offer.avantages}</Text>
       </View>
       <View className="flex flex-row mb-2">
         <Text className="text-lg font-semibold text-gray-600 mr-2">
@@ -64,7 +58,7 @@ export default function Offer() {
         className="bg-blue-500 py-3 px-6 rounded-lg"
       >
         <Text className="text-white text-center font-bold text-lg">
-          Voir les {offer.nbCandidats} candidats
+          Voir les {offer.nombreCandidats} candidats
         </Text>
       </Link>
     </View>

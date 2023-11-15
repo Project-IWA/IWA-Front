@@ -17,7 +17,7 @@ export default function Validation() {
   const { username, nom, prenom, tel, etablissement } = registeringUser;
 
   const etab: Etablissement | undefined = useSelector((state: RootState) =>
-    selectEtablissementById(state, etablissement.id!)
+    selectEtablissementById(state, etablissement.idEtablissement!)
   );
 
   const dispatch = useDispatch();

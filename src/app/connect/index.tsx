@@ -29,7 +29,7 @@ export default function Connect() {
       const { user, token } = logResult;
       setToken(token);
       dispatch(setUser({ user }));
-      router.replace("/home");
+      router.push("/home");
     } catch (err: any) {
       console.error("Error", err.message);
     }

@@ -26,19 +26,18 @@ export default function Etablissement() {
 
   const dispatch = useDispatch();
 
-  const canSave = Boolean(etablissement.nom) || Boolean(etablissement.id);
+  const canSave =
+    Boolean(etablissement.nom) || Boolean(etablissement.idEtablissement);
 
-  /*
   if (isLoading) {
     return <Text>Loading etablissements...</Text>;
   }
-  */
 
   return (
     <View className="flex-1 items-center justify-center">
       <Text className="text-2xl font-bold mb-4">Etablissement</Text>
       <Select
-        selectedValue={etablissement.id}
+        selectedValue={etablissement.idEtablissement}
         minWidth="300"
         accessibilityLabel="Choisissez un établissement"
         placeholder="Choisissez un établissement"
@@ -47,10 +46,12 @@ export default function Etablissement() {
           endIcon: <CheckIcon size="5" />,
         }}
         mt={1}
-        onValueChange={(e) => dispatch(setEtablissement({ nom: "", id: e }))}
+        onValueChange={(e) =>
+          dispatch(setEtablissement({ nom: "", idEtablissement: e }))
+        }
       >
         {etablissements.map((etab: Etablissement) => (
-          <Select.Item label={etab.nom} value={etab.id!} />
+          <Select.Item label={etab.nom} value={etab.idEtablissement!} />
         ))}
       </Select>
       <View className="items-center justify-center gap-4 mt-4 flex-row">

@@ -1,53 +1,56 @@
 type User = {
-  id?: string;
+  idUser?: string;
   prenom: string;
   nom: string;
-  mail: string;
+  username: string;
+  email: string;
   password: string;
-  role: "Admin" | "Recruteur";
+  roles: Role[];
   tel?: string;
+  enabled?: boolean;
   numRue?: string;
   rue?: string;
   codePostal?: string;
   ville?: string;
   pays?: string;
-  siret?: string;
-  justificatif?: string;
-  valide?: boolean;
+  numeroSiret?: string;
+  docJustificatif?: string;
+  etat: string;
   formule?: Formule;
-  dateDebut?: Date;
-  dateFin?: Date;
-  etablissement?: Etablissement;
+  dateDebutSouscription?: Date;
+  dateFinSouscription?: Date;
+  etablissementPrincipal?: Etablissement;
+  etablissements: Etablissement[];
+};
+
+type Role = {
+  idRole?: string;
+  name: string;
 };
 
 type Etablissement = {
-  id?: string;
+  idEtablissement?: string;
   nom: string;
 };
 
 type Formule = {
-  id?: string;
-  nom: string;
+  idFormule?: string;
+  typeFormule: string;
 };
 
 type Offre = {
-  id?: string;
+  idOffre?: string;
   emploi: string;
+  description: string;
   dateDebut: Date;
   dateFin: Date;
   salaire: number;
-  avantages: string[];
+  avantages: string;
   etat: string;
-  nbCandidats: number;
-  recruteur: string;
-  etablissement: Etablissement;
-  description: string;
-};
-
-type Candidat = {
-  email: string;
-  firstname: string;
-  lastname: string;
+  nombreCandidats: number;
+  attributions: Attribution[];
+  idUser: string;
+  idEtablissement: string;
 };
 
 type Registering = {
@@ -62,14 +65,24 @@ type Registering = {
 };
 
 type Attribution = {
-  id?: string;
-  candidat: string;
+  idOffre?: string;
+  emailCandidat: string;
   note: number;
-  etat: "attente" | "en cours" | "terminée";
+  avis: string;
+  etat: string;
+  offre: Offre;
 };
 
-type Notification = {
-  offre: string;
-  firstName: string;
-  lastName: string;
+type Notif = {
+  idNotification?: string;
+  idUser: string;
+  idAdmin: string;
+  motifNotification: string;
+  etat: string;
+};
+
+type Candidat = {
+  email: string;
+  firstname: string;
+  lastname: string;
 };

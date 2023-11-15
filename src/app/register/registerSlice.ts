@@ -16,7 +16,7 @@ const initialState: RegisteringState = {
     currentPage: 0,
     etablissement: {
       nom: "",
-      id: "",
+      idEtablissement: "",
     },
   },
 };

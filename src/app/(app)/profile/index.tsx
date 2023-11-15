@@ -5,12 +5,12 @@ import { View, Text } from "react-native";
 export default function Profile() {
   const user: User | null = useSelector(selectCurrentUser) as User;
 
-  if (user.role === "Admin") {
+  if (user.roles.some((role) => role.name === "Admin")) {
     return (
       <View>
-        <Text className="text-2xl font-bold mb-4">{user.role}</Text>
+        <Text className="text-2xl font-bold mb-4">{user.roles.join(" ")}</Text>
         <Text className="text-lg font-semibold mb-2">Mail :</Text>
-        <Text>{user.mail}</Text>
+        <Text>{user.email}</Text>
       </View>
     );
   }
@@ -29,22 +29,26 @@ export default function Profile() {
         </Text>
       </View>
       <View className="mb-4">
-        <Text className="font-semibold">SIRET: {user.siret}</Text>
-        <Text className="font-semibold">Justificatif: {user.justificatif}</Text>
+        <Text className="font-semibold">SIRET: {user.numeroSiret}</Text>
+        <Text className="font-semibold">
+          Justificatif: {user.docJustificatif}
+        </Text>
       </View>
       <View className="mb-4">
-        <Text className="font-semibold">Formule: {user.formule?.nom}</Text>
         <Text className="font-semibold">
-          Début: {user.dateDebut?.toISOString().slice(0, 10)}
+          Formule: {user.formule?.typeFormule}
         </Text>
         <Text className="font-semibold">
-          Fin: {user.dateFin?.toISOString().slice(0, 10)}
+          Début: {user.dateDebutSouscription?.toISOString().slice(0, 10)}
+        </Text>
+        <Text className="font-semibold">
+          Fin: {user.dateFinSouscription?.toISOString().slice(0, 10)}
         </Text>
       </View>
-      {user.etablissement && (
+      {user.etablissementPrincipal && (
         <View className="mb-4">
           <Text className="font-semibold">
-            Établissement: {user.etablissement?.nom}
+            Établissement: {user.etablissementPrincipal?.nom}
           </Text>
         </View>
       )}

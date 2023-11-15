@@ -8,31 +8,39 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: {
-    id: "1",
+    idUser: "1",
     prenom: "John",
     nom: "Doe",
-    mail: "john.doe@example.com",
+    email: "john.doe@example.com",
+    username: "john.doe@example.com",
+    etat: "Ok",
     password: "motdepasse123",
-    role: "Recruteur",
+    roles: [{ name: "Recruteur" }],
     tel: "0123456789",
     numRue: "123",
     rue: "Rue de la République",
     codePostal: "75001",
     ville: "Paris",
     pays: "France",
-    siret: "12345678900001",
-    justificatif: "path/vers/justificatif.pdf",
-    valide: true,
+    numeroSiret: "12345678900001",
+    docJustificatif: "path/vers/justificatif.pdf",
+    enabled: true,
     formule: {
-      id: "1",
-      nom: "Premium",
+      idFormule: "1",
+      typeFormule: "Premium",
     },
-    dateDebut: new Date("2023-01-01"),
-    dateFin: new Date("2023-12-31"),
-    etablissement: {
-      id: "1",
+    dateDebutSouscription: new Date("2023-01-01"),
+    dateFinSouscription: new Date("2023-12-31"),
+    etablissementPrincipal: {
+      idEtablissement: "1",
       nom: "Polytech Montpellier",
     },
+    etablissements: [
+      {
+        idEtablissement: "1",
+        nom: "Polytech Montpellier",
+      },
+    ],
   },
 };
 

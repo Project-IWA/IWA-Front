@@ -3,7 +3,7 @@ import { apiSlice } from "../api/apiSlice";
 import { RootState } from "../store";
 
 export const etablissementsAdapter = createEntityAdapter({
-  selectId: (instance: Etablissement) => instance.id as string,
+  selectId: (instance: Etablissement) => instance.idEtablissement as string,
   sortComparer: false,
 });
 
@@ -11,15 +11,15 @@ export const initialState = etablissementsAdapter.setAll(
   etablissementsAdapter.getInitialState(),
   [
     {
-      id: "1",
+      idEtablissement: "1",
       nom: "Polytech Montpellier",
     },
     {
-      id: "2",
+      idEtablissement: "2",
       nom: "Polytech Tours",
     },
     {
-      id: "3",
+      idEtablissement: "3",
       nom: "Polytech Dijon",
     },
   ]
@@ -28,7 +28,7 @@ export const initialState = etablissementsAdapter.setAll(
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getEtablissements: builder.query({
-      query: () => `/etablissement`,
+      query: () => `/etablissements`,
       transformResponse: (responseData: any) => {
         return etablissementsAdapter.setAll(initialState, responseData);
       },
@@ -39,7 +39,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     addNewEtablissement: builder.mutation({
       query: (initialEtablissement: Etablissement) => ({
-        url: "/etablissement",
+        url: "/etablissements",
         method: "POST",
         body: {
           ...initialEtablissement,
@@ -49,7 +49,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     updateEtablissement: builder.mutation({
       query: (initialEtablissement: Etablissement) => ({
-        url: `/etablissement/id/${initialEtablissement.id}`,
+        url: `/etablissements/${initialEtablissement.idEtablissement}`,
         method: "PUT",
         body: {
           ...initialEtablissement,
@@ -61,7 +61,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteEtablissement: builder.mutation({
       query: ({ etablissementId }: { etablissementId: string }) => ({
-        url: `/etablissement/${etablissementId}`,
+        url: `/etablissements/${etablissementId}`,
         method: "DELETE",
         body: { etablissementId },
       }),

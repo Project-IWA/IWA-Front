@@ -12,14 +12,14 @@ export default function NewOffer() {
     dateDebut: new Date(),
     dateFin: new Date(),
     salaire: 0,
-    avantages: [],
+    avantages: "",
     etat: "",
-    nbCandidats: 0,
-    recruteur: "",
-    etablissement: {
-      nom: "",
-    },
+    nombreCandidats: 0,
+    idUser: "",
+    idEtablissement: "",
     description: "",
+    idOffre: "",
+    attributions: [],
   });
 
   const [AddOffer, { isLoading }] = useAddNewOfferMutation();
@@ -30,7 +30,7 @@ export default function NewOffer() {
   async function handleAddOffer() {
     try {
       const newOffer: Offre = await AddOffer(offer).unwrap();
-      router.push(`/offers/${newOffer.id}`);
+      router.push(`/offers/${newOffer.idOffre}`);
     } catch (err: any) {
       console.error("Erreur", err.message);
     }
@@ -39,7 +39,7 @@ export default function NewOffer() {
   const canSave = [
     offer.emploi,
     offer.salaire,
-    offer.etablissement.nom,
+    offer.idEtablissement,
     offer.description,
   ].every(Boolean);
 

@@ -1,28 +1,28 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { selectAttributionsByUser } from "../offers/offersApiSlice";
+import { selectNotifsByUser } from "./notificationsApiSlice";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 
 export default function Notifications() {
   const notifications = useSelector((state: RootState) =>
-    selectAttributionsByUser(state)
+    selectNotifsByUser(state)
   );
 
   return (
     <View className="flex-1 items-center justify-center mt-12">
       <Text className="text-2xl font-bold mb-4">Notifications</Text>
-      <FlatList<Offre>
+      <FlatList<Notif>
         className="w-full"
         data={notifications}
-        keyExtractor={(item: Offre) => item.id as string}
+        keyExtractor={(item: Notif) => item.idNotification as string}
         renderItem={({ item }) => (
           <TouchableOpacity
             className="p-4 rounded-lg shadow-md mx-4 my-2 bg-gray-200"
-            onPress={() => router.push(`/offers/${item.id}`)}
+            onPress={() => router.push(`/notifications/${item.idNotification}`)}
           >
             <Text className="text-xl font-semibold mb-2">
-              Un utilisateur a matché avec votre offre
+              {item.motifNotification}
             </Text>
           </TouchableOpacity>
         )}

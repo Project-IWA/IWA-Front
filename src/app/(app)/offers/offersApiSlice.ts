@@ -3,7 +3,7 @@ import { apiSlice } from "../../api/apiSlice";
 import { RootState } from "../../store";
 
 export const offersAdapter = createEntityAdapter({
-  selectId: (instance: Offre) => instance.id as string,
+  selectId: (instance: Offre) => instance.idOffre as string,
   sortComparer: false,
 });
 
@@ -11,84 +11,32 @@ export const initialState = offersAdapter.setAll(
   offersAdapter.getInitialState(),
   [
     {
-      id: "1",
+      idOffre: "1",
       emploi: "Développeur Front-end",
       dateDebut: new Date("2023-10-01"),
       dateFin: new Date("2023-12-31"),
       salaire: 55000,
-      avantages: ["Assurance santé", "Télétravail"],
+      avantages: "Assurance santé, Télétravail",
       etat: "Ouverte",
-      nbCandidats: 15,
-      recruteur: "1",
-      etablissement: {
-        id: "1",
-        nom: "Entreprise A",
-      },
+      nombreCandidats: 15,
+      idUser: "1",
+      idEtablissement: "1",
       description: "Description de l'offre 1",
+      attributions: [],
     },
     {
-      id: "2",
-      emploi: "Ingénieur en Informatique",
-      dateDebut: new Date("2023-11-15"),
-      dateFin: new Date("2024-03-15"),
-      salaire: 60000,
-      avantages: ["Assurance santé", "Tickets restaurant"],
+      idOffre: "2",
+      emploi: "Développeur Front-end",
+      dateDebut: new Date("2023-10-01"),
+      dateFin: new Date("2023-12-31"),
+      salaire: 55000,
+      avantages: "Assurance santé, Télétravail",
       etat: "Ouverte",
-      nbCandidats: 10,
-      recruteur: "1",
-      etablissement: {
-        id: "2",
-        nom: "Entreprise B",
-      },
-      description: "Description de l'offre 2",
-    },
-    {
-      id: "3",
-      emploi: "Ingénieur en Informatique",
-      dateDebut: new Date("2023-11-15"),
-      dateFin: new Date("2024-03-15"),
-      salaire: 60000,
-      avantages: ["Assurance santé", "Tickets restaurant"],
-      etat: "Ouverte",
-      nbCandidats: 10,
-      recruteur: "1",
-      etablissement: {
-        id: "2",
-        nom: "Entreprise B",
-      },
-      description: "Description de l'offre 2",
-    },
-    {
-      id: "4",
-      emploi: "Ingénieur en Informatique",
-      dateDebut: new Date("2023-11-15"),
-      dateFin: new Date("2024-03-15"),
-      salaire: 60000,
-      avantages: ["Assurance santé", "Tickets restaurant"],
-      etat: "Ouverte",
-      nbCandidats: 10,
-      recruteur: "1",
-      etablissement: {
-        id: "2",
-        nom: "Entreprise B",
-      },
-      description: "Description de l'offre 2",
-    },
-    {
-      id: "5",
-      emploi: "Ingénieur en Informatique",
-      dateDebut: new Date("2023-11-15"),
-      dateFin: new Date("2024-03-15"),
-      salaire: 60000,
-      avantages: ["Assurance santé", "Tickets restaurant"],
-      etat: "Ouverte",
-      nbCandidats: 10,
-      recruteur: "1",
-      etablissement: {
-        id: "2",
-        nom: "Entreprise B",
-      },
-      description: "Description de l'offre 2",
+      nombreCandidats: 15,
+      idUser: "1",
+      idEtablissement: "1",
+      description: "Description de l'offre 1",
+      attributions: [],
     },
   ]
 );
@@ -96,7 +44,7 @@ export const initialState = offersAdapter.setAll(
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getOffers: builder.query({
-      query: () => `/offer`,
+      query: () => `/offres`,
       transformResponse: (responseData: any) => {
         return offersAdapter.setAll(initialState, responseData);
       },
@@ -107,7 +55,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     addNewOffer: builder.mutation({
       query: (initialOffer: Offre) => ({
-        url: "/offer",
+        url: "/offres",
         method: "POST",
         body: {
           ...initialOffer,
@@ -117,7 +65,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     updateOffer: builder.mutation({
       query: (initialOffer: Offre) => ({
-        url: `/offer/id/${initialOffer.id}`,
+        url: `/offres/${initialOffer.idOffre}`,
         method: "PUT",
         body: {
           ...initialOffer,
@@ -129,9 +77,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteOffer: builder.mutation({
       query: ({ offerId }: { offerId: string }) => ({
-        url: `/offer/${offerId}`,
+        url: `/offres/${offerId}`,
         method: "DELETE",
-        body: { offerId },
       }),
       invalidatesTags: (result: any, error: any, arg: any) => [
         { type: "Offer", id: arg.id },
