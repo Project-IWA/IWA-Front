@@ -1,16 +1,33 @@
 import { useLocalSearchParams } from "expo-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { selectNotificationById } from "./notificationsApiSlice";
-import { View, Text } from "react-native";
-import { Link } from "expo-router";
+import {
+  selectNotificationById,
+  useUpdateNotificationMutation,
+} from "./notificationsApiSlice";
+import { View, Text, TouchableOpacity } from "react-native";
 
 export default function Offer() {
-  const { offer: offerId } = useLocalSearchParams() as { offer: string };
+  const { notification: notificationId } = useLocalSearchParams() as {
+    notification: string;
+  };
 
   const notification: Notif | undefined = useSelector((state: RootState) =>
-    selectNotificationById(state, offerId)
+    selectNotificationById(state, notificationId)
   );
+
+  const [updateNotification, { isLoading }] = useUpdateNotificationMutation();
+
+  async function handleUpdateNotification() {
+    try {
+      await updateNotification({
+        ...notification,
+        etat: "Validée",
+      });
+    } catch (err: any) {
+      console.error("Erreur", err.message);
+    }
+  }
 
   if (!notification) {
     return <Text>Erreur, notification non trouvée</Text>;
@@ -25,6 +42,9 @@ export default function Offer() {
         <Text className="text-lg font-semibold text-gray-600 mr-2">Etat :</Text>
         <Text className="text-lg text-gray-900">{notification.etat}</Text>
       </View>
+      <TouchableOpacity onPress={handleUpdateNotification}>
+        Valider la demande
+      </TouchableOpacity>
     </View>
   );
 }

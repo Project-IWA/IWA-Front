@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text } from "react-native";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { selectAttributionsByUser } from "./offers/offersApiSlice";
+import { selectAllNotifications } from "./notifications/notificationsApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { Link } from "expo-router";
 
 export default function NotificationBadge({ pathname }: { pathname: string }) {
   const count: number = useSelector((state: RootState) =>
-    selectAttributionsByUser(state)
+    selectAllNotifications(state)
   ).length;
 
   return (

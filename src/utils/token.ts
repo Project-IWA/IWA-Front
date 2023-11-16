@@ -16,3 +16,11 @@ export async function setToken(token: string) {
     console.error(err.message);
   }
 }
+
+export async function removeToken() {
+  try {
+    await AsyncStorage.removeItem("token");
+  } catch (err: any) {
+    console.error(err.message);
+  }
+}

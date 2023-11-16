@@ -19,6 +19,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...registeringUser },
       }),
     }),
+    updateUser: builder.mutation({
+      query: (user: User) => ({
+        url: `/users/${user.idUser}`,
+        method: "PUT",
+        body: { ...user },
+      }),
+    }),
   }),
 });
 
@@ -29,4 +36,5 @@ export const {
   useGetAccessTokenMutation,
   useLogMutation,
   useAddNewUserMutation,
+  useUpdateUserMutation,
 } = authApiSlice;

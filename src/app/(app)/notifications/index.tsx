@@ -18,10 +18,12 @@ export default function Notifications() {
         keyExtractor={(item: Notif) => item.idNotification as string}
         renderItem={({ item }) => (
           <TouchableOpacity
-            className="p-4 rounded-lg shadow-md mx-4 my-2 bg-gray-200"
+            className={`p-4 rounded-lg shadow-md mx-4 my-2 ${
+              item.etat === "Lue" ? "bg-gray-500" : "bg-gray-200"
+            }`}
             onPress={() => router.push(`/notifications/${item.idNotification}`)}
           >
-            <Text className="text-xl font-semibold mb-2">
+            <Text className="text-xl font-semibold">
               {item.motifNotification}
             </Text>
           </TouchableOpacity>

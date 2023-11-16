@@ -5,15 +5,17 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
 
 export default function Offers() {
-  const { isLoading } = useGetOffersQuery();
+  //const { isLoading } = useGetOffersQuery();
 
   const offres: Offre[] = useSelector((state: RootState) =>
     selectAllOffers(state)
   );
 
+  /*
   if (isLoading) {
     return <Text>Loading offers...</Text>;
   }
+  */
 
   return (
     <View className="flex-1 items-center justify-center mt-12">
