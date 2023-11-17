@@ -15,7 +15,7 @@ const initialState: AuthState = {
     username: "john.doe@example.com",
     etat: "Ok",
     password: "motdepasse123",
-    roles: [{ name: "Recruteur" }],
+    role: "Recruteur",
     tel: "0123456789",
     numRue: "123",
     rue: "Rue de la République",

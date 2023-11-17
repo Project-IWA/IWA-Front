@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { useUpdateOfferMutation } from "./offersApiSlice";
 import { router } from "expo-router";
+import { Select, CheckIcon } from "native-base";
 
 interface UpdateOfferProps {
   offre: Offre;
@@ -13,7 +14,7 @@ interface UpdateOfferProps {
 export default function UpdateOffer({ offre }: UpdateOfferProps) {
   const [offer, setOffer] = useState<Offre>(offre);
 
-  const [updateOffer, { isLoading }] = useUpdateOfferMutation();
+  const [updateOffer] = useUpdateOfferMutation();
 
   const [showDateDebut, setShowDateDebut] = useState<boolean>(false);
   const [showDateFin, setShowDateFin] = useState<boolean>(false);
@@ -101,10 +102,33 @@ export default function UpdateOffer({ offre }: UpdateOfferProps) {
         }
         className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
       />
+      <TextInput
+        placeholder="Avantages"
+        value={offer.avantages}
+        onChangeText={(text) => setOffer({ ...offer, avantages: text })}
+        className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
+      />
+      <Select
+        selectedValue={offer.etat}
+        minWidth="300"
+        accessibilityLabel="Choisissez un statut"
+        placeholder="Choisissez un statut"
+        _selectedItem={{
+          bg: "teal.600",
+          endIcon: <CheckIcon size="5" />,
+        }}
+        mt={1}
+        onValueChange={(e) =>
+          setOffer({ ...offer, etat: e as "Ouverte" | "Archivée" })
+        }
+      >
+        <Select.Item label="Ouverte" value="Ouverte" />
+        <Select.Item label="Archivée" value="Archivée" />
+      </Select>
       <TouchableOpacity
         className={`${
           canSave ? "bg-blue-500" : "bg-gray-400"
-        } py-3 px-6 rounded-lg items-center`}
+        } py-3 px-6 mt-2 rounded-lg items-center`}
         onPress={handleUpdateOffer}
         disabled={!canSave}
       >

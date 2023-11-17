@@ -2,7 +2,7 @@ import { Link, Redirect, Slot } from "expo-router";
 import { selectCurrentUser, setUser, logOut } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { View, Text } from "react-native";
-import { useAuthQuery } from "../auth/authApiSlice";
+import { useAuthQuery } from "../auth/usersApiSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { usePathname } from "expo-router";
@@ -52,7 +52,7 @@ export default function AppLayout() {
         <Slot />
       </View>
       <View className="flex-row justify-around p-4 bg-white-300">
-        {user.roles.some((role) => role.name === "Admin") ? (
+        {user.role === "Admin" ? (
           <NotificationBadge pathname={pathname} />
         ) : (
           <>

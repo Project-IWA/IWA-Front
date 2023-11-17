@@ -61,11 +61,9 @@ export default function Offer() {
         </View>
         <Link
           href={`/offers/candidates/${offerId}`}
-          className="bg-blue-500 py-3 px-6 rounded-lg"
+          className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg"
         >
-          <Text className="text-white text-center font-bold text-lg">
-            Voir les {offer.nombreCandidats} candidats
-          </Text>
+          Voir les {offer.nombreCandidats} candidats
         </Link>
         {!update ? (
           <Button

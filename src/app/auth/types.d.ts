@@ -5,7 +5,7 @@ type User = {
   username: string;
   email: string;
   password: string;
-  roles: Role[];
+  role: "Admin" | "Recruteur";
   tel?: string;
   enabled?: boolean;
   numRue?: string;
@@ -21,11 +21,6 @@ type User = {
   dateFinSouscription?: Date;
   etablissementPrincipal?: Etablissement;
   etablissements: Etablissement[];
-};
-
-type Role = {
-  idRole?: string;
-  name: string;
 };
 
 type Etablissement = {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../auth/authSlice";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import { useUpdateUserMutation } from "../../../auth/authApiSlice";
+import { useUpdateUserMutation } from "../../../auth/usersApiSlice";
 import { router } from "expo-router";
 import { ScrollView } from "native-base";
 
@@ -55,7 +55,9 @@ export default function UpdateProfile() {
         onPress={handleUpdateUser}
         className="bg-blue-500 py-3 mt-2 px-6 rounded-md"
       >
-        <Text className="text-white font-bold text-xl">Enregistrer</Text>
+        <Text className="text-white text-center font-bold text-xl">
+          Enregistrer
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

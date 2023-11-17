@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectCurrentRegisteringUser, setCurrentPage } from "./registerSlice";
-import { useAddNewUserMutation } from "../auth/authApiSlice";
+import { useAddNewUserMutation } from "../auth/usersApiSlice";
 import { setToken } from "../../utils/token";
 import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";

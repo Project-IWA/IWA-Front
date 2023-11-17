@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { useLoginMutation } from "../auth/authApiSlice";
+import { useLoginMutation } from "../auth/usersApiSlice";
 import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";
 import { Link, router } from "expo-router";

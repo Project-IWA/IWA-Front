@@ -19,13 +19,11 @@ export default function Notifications() {
         renderItem={({ item }) => (
           <TouchableOpacity
             className={`p-4 rounded-lg shadow-md mx-4 my-2 ${
-              item.etat === "Lue" ? "bg-gray-500" : "bg-gray-200"
+              item.etat === "Validée" ? "bg-gray-500" : "bg-gray-200"
             }`}
             onPress={() => router.push(`/notifications/${item.idNotification}`)}
           >
-            <Text className="text-xl font-semibold">
-              {item.motifNotification}
-            </Text>
+            <Text className="text-xl font-semibold">{`${item.type} de `}</Text>
           </TouchableOpacity>
         )}
       />

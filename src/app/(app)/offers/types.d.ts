@@ -6,7 +6,7 @@ type Offre = {
   dateFin: Date;
   salaire: number;
   avantages: string;
-  etat: string;
+  etat: "Ouverte" | "Archivée";
   nombreCandidats: number;
   attributions: Attribution[];
   idUser: string;

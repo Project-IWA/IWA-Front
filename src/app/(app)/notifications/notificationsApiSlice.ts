@@ -14,8 +14,17 @@ export const initialState = notificationsAdapter.setAll(
       idNotification: "1",
       idUser: "1",
       idAdmin: "1",
-      etat: "Attente",
-      motifNotification: "Validation",
+      type: "Suppression",
+      etat: "En attente",
+      date: new Date(),
+    },
+    {
+      idNotification: "2",
+      idUser: "1",
+      idAdmin: "1",
+      type: "Validation",
+      etat: "En attente",
+      date: new Date(),
     },
   ]
 );
