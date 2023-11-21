@@ -18,7 +18,7 @@ import { Portal, Dialog, Button } from "react-native-paper";
 import { removeToken } from "../../utils/token";
 
 export default function AppLayout() {
-  //const { data: fetchData, isLoading } = useAuthQuery();
+  const { data: fetchData, isLoading } = useAuthQuery();
 
   const user: User | null = useSelector(selectCurrentUser);
 
@@ -26,9 +26,6 @@ export default function AppLayout() {
 
   const [dialog, setDialog] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-
-  /*
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,7 +37,6 @@ export default function AppLayout() {
   if (isLoading) {
     return <Text>Loading layout...</Text>;
   }
-  */
 
   if (!user) {
     return <Redirect href="/connect" />;

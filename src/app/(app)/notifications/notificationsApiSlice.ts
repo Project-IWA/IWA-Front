@@ -7,27 +7,7 @@ export const notificationsAdapter = createEntityAdapter({
   sortComparer: false,
 });
 
-export const initialState = notificationsAdapter.setAll(
-  notificationsAdapter.getInitialState(),
-  [
-    {
-      idNotification: "1",
-      idUser: "1",
-      idAdmin: "1",
-      type: "Suppression",
-      etat: "En attente",
-      date: new Date(),
-    },
-    {
-      idNotification: "2",
-      idUser: "1",
-      idAdmin: "1",
-      type: "Validation",
-      etat: "En attente",
-      date: new Date(),
-    },
-  ]
-);
+export const initialState = notificationsAdapter.getInitialState();
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({

@@ -14,7 +14,7 @@ import { useState } from "react";
 export default function Matchings() {
   const { offerId } = useLocalSearchParams() as { offerId: string };
 
-  //const { isLoading } = useGetMatchingsQuery({ offerId });
+  const { isLoading } = useGetMatchingsQuery({ offerId });
 
   const matchings: Matching[] = useSelector((state: RootState) =>
     selectAllMatchings(state)
@@ -36,11 +36,9 @@ export default function Matchings() {
     }
   }
 
-  /*
   if (isLoading) {
     return <Text>Erreur, candidats non trouvée</Text>;
   }
-  */
 
   return (
     <View className="flex-1 items-center justify-center mt-12">

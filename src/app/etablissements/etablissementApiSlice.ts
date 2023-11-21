@@ -7,23 +7,7 @@ export const etablissementsAdapter = createEntityAdapter({
   sortComparer: false,
 });
 
-export const initialState = etablissementsAdapter.setAll(
-  etablissementsAdapter.getInitialState(),
-  [
-    {
-      idEtablissement: "1",
-      nom: "Polytech Montpellier",
-    },
-    {
-      idEtablissement: "2",
-      nom: "Polytech Tours",
-    },
-    {
-      idEtablissement: "3",
-      nom: "Polytech Dijon",
-    },
-  ]
-);
+export const initialState = etablissementsAdapter.getInitialState();
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({

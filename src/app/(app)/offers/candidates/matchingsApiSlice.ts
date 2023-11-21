@@ -7,21 +7,7 @@ export const matchingsAdapter = createEntityAdapter({
   sortComparer: false,
 });
 
-export const initialState = matchingsAdapter.setAll(
-  matchingsAdapter.getInitialState(),
-  [
-    {
-      idMatching: "1",
-      idCandidat: "1",
-      emailCandidat: "j@gmail.com",
-    },
-    {
-      idMatching: "2",
-      idCandidat: "2",
-      emailCandidat: "m@gmail.com",
-    },
-  ]
-);
+export const initialState = matchingsAdapter.getInitialState();
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
