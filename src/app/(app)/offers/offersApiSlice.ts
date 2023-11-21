@@ -9,10 +9,12 @@ export const offersAdapter = createEntityAdapter({
 
 export const initialState = offersAdapter.getInitialState();
 
+const recrutementsMS = "/recrutements-api/api";
+
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getOffers: builder.query({
-      query: () => `/offres`,
+      query: () => `${recrutementsMS}/offres`,
       transformResponse: (responseData: any) => {
         return offersAdapter.setAll(initialState, responseData);
       },
@@ -23,7 +25,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     addNewOffer: builder.mutation({
       query: (initialOffer: Offre) => ({
-        url: "/offres",
+        url: `${recrutementsMS}/offres`,
         method: "POST",
         body: {
           ...initialOffer,
@@ -33,7 +35,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     updateOffer: builder.mutation({
       query: (initialOffer: Offre) => ({
-        url: `/offres/${initialOffer.idOffre}`,
+        url: `${recrutementsMS}/offres/${initialOffer.idOffre}`,
         method: "PUT",
         body: {
           ...initialOffer,
@@ -45,20 +47,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteOffer: builder.mutation({
       query: ({ offerId }: { offerId: string }) => ({
-        url: `/offres/${offerId}`,
+        url: `${recrutementsMS}/offres/${offerId}`,
         method: "DELETE",
-      }),
-      invalidatesTags: (result: any, error: any, arg: any) => [
-        { type: "Offer", id: arg.id },
-      ],
-    }),
-    updateAttribution: builder.mutation({
-      query: (initialAttribution: Attribution) => ({
-        url: `/offres/attributions/${initialAttribution.idAttribution}`,
-        method: "PUT",
-        body: {
-          ...initialAttribution,
-        },
       }),
       invalidatesTags: (result: any, error: any, arg: any) => [
         { type: "Offer", id: arg.id },

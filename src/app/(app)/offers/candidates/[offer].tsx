@@ -1,15 +1,12 @@
 import { FlatList, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import {
-  selectAllMatchings,
-  useGetMatchingsQuery,
-  useUpdateMatchingMutation,
-} from "./matchingsApiSlice";
+import { selectAllMatchings, useGetMatchingsQuery } from "./matchingsApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Button as Btn } from "native-base";
 import { Portal, Dialog, Button, Snackbar } from "react-native-paper";
 import { useState } from "react";
+import { useAddNewAttributionMutation } from "../attributions/attributionsApiSlice";
 
 export default function Matchings() {
   const { offerId } = useLocalSearchParams() as { offerId: string };
@@ -20,15 +17,15 @@ export default function Matchings() {
     selectAllMatchings(state)
   );
 
-  const [dialogAccept, setDialogAccept] = useState<Matching | null>(null);
+  const [dialogAccept, setDialogAccept] = useState<Attribution | null>(null);
 
   const [snackbar, setSnackbar] = useState<string | null>(null);
 
-  const [updateMatching] = useUpdateMatchingMutation();
+  const [addNewAttribution] = useAddNewAttributionMutation();
 
-  async function handleUpdateMatching() {
+  async function handleAddNewAttribution() {
     try {
-      await updateMatching(dialogAccept as Matching).unwrap();
+      await addNewAttribution(dialogAccept as Attribution).unwrap();
       setSnackbar("Candidat accepté !");
     } catch (err: any) {
       console.error(err.message);
@@ -53,7 +50,13 @@ export default function Matchings() {
           <View className="p-2 m-2 bg-gray-200 rounded-lg shadow-black flex flex-col">
             <Text className="text-xl font-bold">{item.emailCandidat}</Text>
             <Btn
-              onPress={() => setDialogAccept(item)}
+              onPress={() =>
+                setDialogAccept({
+                  etat: "En cours",
+                  idOffre: item.idOffre,
+                  emailCandidat: item.emailCandidat,
+                })
+              }
               className="py-3 mt-2 px-6 rounded-lg bg-blue-500"
             >
               <Text className="text-white text-center font-bold text-lg">
@@ -87,7 +90,7 @@ export default function Matchings() {
             <Button
               mode="contained"
               className="w-16 rounded-lg"
-              onPress={handleUpdateMatching}
+              onPress={handleAddNewAttribution}
             >
               Oui
             </Button>

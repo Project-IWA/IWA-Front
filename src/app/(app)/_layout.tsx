@@ -7,12 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { usePathname } from "expo-router";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faAdd,
-  faHome,
-  faUser,
-  faEnvelope,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import NotificationBadge from "./NotificationBadge";
 import { Portal, Dialog, Button } from "react-native-paper";
 import { removeToken } from "../../utils/token";

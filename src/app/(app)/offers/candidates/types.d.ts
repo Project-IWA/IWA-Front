@@ -1,5 +1,5 @@
 type Matching = {
-  idMatching: string;
-  idCandidat: string;
+  idMatching?: string;
+  idOffre: string;
   emailCandidat: string;
 };

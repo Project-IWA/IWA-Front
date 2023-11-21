@@ -9,11 +9,13 @@ export const matchingsAdapter = createEntityAdapter({
 
 export const initialState = matchingsAdapter.getInitialState();
 
+const matchingMS = "/matching-api/api";
+
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getMatchings: builder.query({
       query: ({ offerId }: { offerId: string }) =>
-        `/matchings/offre/${offerId}`,
+        `${matchingMS}/matchings/offre/${offerId}`,
       transformResponse: (responseData: any) => {
         return matchingsAdapter.setAll(initialState, responseData);
       },
@@ -24,7 +26,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     addNewMatching: builder.mutation({
       query: (initialMatching: Offre) => ({
-        url: "/matchings",
+        url: `${matchingMS}/matchings`,
         method: "POST",
         body: {
           ...initialMatching,
@@ -34,7 +36,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     updateMatching: builder.mutation({
       query: (initialMatching: Offre) => ({
-        url: `/matchings/${initialMatching.idOffre}`,
+        url: `${matchingMS}/matchings/${initialMatching.idOffre}`,
         method: "PUT",
         body: {
           ...initialMatching,
@@ -46,7 +48,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteMatching: builder.mutation({
       query: ({ matchingId }: { matchingId: string }) => ({
-        url: `/matchings/${matchingId}`,
+        url: `${matchingMS}/matchings/${matchingId}`,
         method: "DELETE",
       }),
       invalidatesTags: (result: any, error: any, arg: any) => [

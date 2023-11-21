@@ -29,8 +29,8 @@ export default function Validation() {
       const logResult = await addNewUser({
         ...registeringUser,
       }).unwrap();
-      const { user, token } = logResult;
-      setToken(token);
+      const { user, accessToken, tokenType } = logResult;
+      await setToken(`${tokenType} ${accessToken}`);
       dispatch(setUser({ user }));
       router.push("/home");
     } catch (err: any) {

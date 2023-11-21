@@ -9,10 +9,12 @@ export const notificationsAdapter = createEntityAdapter({
 
 export const initialState = notificationsAdapter.getInitialState();
 
+const notificationsMS = "/notifications-api/api";
+
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getNotifications: builder.query({
-      query: () => `/notifications`,
+      query: () => `${notificationsMS}/notifications`,
       transformResponse: (responseData: any) => {
         return notificationsAdapter.setAll(initialState, responseData);
       },
@@ -23,7 +25,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     addNewNotification: builder.mutation({
       query: (initialNotification: Notif) => ({
-        url: "/notifications",
+        url: `${notificationsMS}/notifications`,
         method: "POST",
         body: {
           ...initialNotification,
@@ -33,7 +35,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     updateNotification: builder.mutation({
       query: (initialNotification: Notif) => ({
-        url: `/notifications/${initialNotification.idNotification}`,
+        url: `${notificationsMS}/notifications/${initialNotification.idNotification}`,
         method: "PUT",
         body: {
           ...initialNotification,
@@ -45,7 +47,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteNotification: builder.mutation({
       query: ({ notificationId }: { notificationId: string }) => ({
-        url: `/notifications/${notificationId}`,
+        url: `${notificationsMS}/notifications/${notificationId}`,
         method: "DELETE",
       }),
       invalidatesTags: (result: any, error: any, arg: any) => [

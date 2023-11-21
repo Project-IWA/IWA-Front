@@ -9,21 +9,23 @@ export const usersAdapter = createEntityAdapter({
 
 export const initialState = usersAdapter.getInitialState();
 
+const usersMS = "/users-api/api";
+
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     login: builder.mutation({
       query: (credentials: { username: string; password: string }) => ({
-        url: "/auth/login",
+        url: `${usersMS}/auth/login`,
         method: "POST",
         body: { ...credentials },
       }),
     }),
     auth: builder.query({
-      query: () => "/auth",
+      query: () => `${usersMS}/auth`,
     }),
     addNewUser: builder.mutation({
       query: (registeringUser: Registering) => ({
-        url: "/auth/register",
+        url: `${usersMS}/auth/register`,
         method: "POST",
         body: { ...registeringUser },
       }),
@@ -31,7 +33,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation({
       query: (user: User) => ({
-        url: `/users/${user.idUser}`,
+        url: `${usersMS}/users/${user.idUser}`,
         method: "PUT",
         body: { ...user },
       }),
@@ -40,7 +42,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     getUsers: builder.query({
-      query: () => "/users",
+      query: () => `${usersMS}/users`,
       transformResponse: (responseData: any) => {
         return usersAdapter.setAll(initialState, responseData);
       },
@@ -51,7 +53,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     deleteUser: builder.mutation({
       query: ({ userId }: { userId: string }) => ({
-        url: `/users/${userId}`,
+        url: `${usersMS}/users/${userId}`,
         method: "DELETE",
       }),
       invalidatesTags: (result: any, error: any, arg: any) => [

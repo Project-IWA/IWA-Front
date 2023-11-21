@@ -26,8 +26,8 @@ export default function Connect() {
         username,
         password,
       }).unwrap();
-      const { user, token } = logResult;
-      setToken(token);
+      const { user, accessToken, tokenType } = logResult;
+      await setToken(`${tokenType} ${accessToken}`);
       dispatch(setUser({ user }));
       router.push("/home");
     } catch (err: any) {
