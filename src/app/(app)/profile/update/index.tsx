@@ -11,7 +11,7 @@ export default function UpdateProfile() {
 
   const [newUser, setNewUser] = useState<User>(user);
 
-  const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   async function handleUpdateUser() {
     try {

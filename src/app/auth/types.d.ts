@@ -32,3 +32,5 @@ type Formule = {
   idFormule?: string;
   typeFormule: string;
 };
+
+// Free | Silver | Gold | Platinum

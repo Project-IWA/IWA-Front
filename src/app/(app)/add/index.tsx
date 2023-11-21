@@ -13,7 +13,7 @@ export default function NewOffer() {
     dateFin: new Date(),
     salaire: 0,
     avantages: "",
-    etat: "",
+    etat: "Ouverte",
     nombreCandidats: 0,
     idUser: "",
     idEtablissement: "",

@@ -53,17 +53,23 @@ export default function Offer() {
           </Text>
           <Text className="text-lg text-gray-900">{offer.avantages}</Text>
         </View>
-        <View className="flex flex-row mb-2">
+        <View className="flex flex-row">
           <Text className="text-lg font-semibold text-gray-600 mr-2">
             Statut:
           </Text>
           <Text className="text-lg text-gray-900">{offer.etat}</Text>
         </View>
         <Link
-          href={`/offers/candidates/${offerId}`}
-          className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg"
+          href={`/offers/attributions/${offerId}`}
+          className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg mt-2"
         >
-          Voir les {offer.nombreCandidats} candidats
+          Voir les candidats attribués
+        </Link>
+        <Link
+          href={`/offers/candidates/${offerId}`}
+          className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg mt-2"
+        >
+          Voir le(s) {offer.nombreCandidats} candidat(s) restants
         </Link>
         {!update ? (
           <Button

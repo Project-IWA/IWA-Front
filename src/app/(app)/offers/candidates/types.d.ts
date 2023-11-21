@@ -1,8 +1,5 @@
-type Attribution = {
-  idOffre?: string;
+type Matching = {
+  idMatching: string;
+  idCandidat: string;
   emailCandidat: string;
-  note: number;
-  avis: string;
-  etat: string;
-  offre: Offre;
 };

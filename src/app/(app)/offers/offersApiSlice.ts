@@ -22,7 +22,18 @@ export const initialState = offersAdapter.setAll(
       idUser: "1",
       idEtablissement: "1",
       description: "Description de l'offre 1",
-      attributions: [],
+      attributions: [
+        {
+          idOffre: "1",
+          emailCandidat: "j@gmail.com",
+          etat: "En cours",
+        },
+        {
+          idOffre: "1",
+          emailCandidat: "m@gmail.com",
+          etat: "Terminée",
+        },
+      ],
     },
     {
       idOffre: "2",
@@ -84,6 +95,18 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         { type: "Offer", id: arg.id },
       ],
     }),
+    updateAttribution: builder.mutation({
+      query: (initialAttribution: Attribution) => ({
+        url: `/offres/attributions/${initialAttribution.idAttribution}`,
+        method: "PUT",
+        body: {
+          ...initialAttribution,
+        },
+      }),
+      invalidatesTags: (result: any, error: any, arg: any) => [
+        { type: "Offer", id: arg.id },
+      ],
+    }),
   }),
 });
 
@@ -92,6 +115,7 @@ export const {
   useAddNewOfferMutation,
   useUpdateOfferMutation,
   useDeleteOfferMutation,
+  useUpdateAttributionMutation,
 } = extendedApiSlice;
 
 export const selectOffersResult = extendedApiSlice.endpoints.getOffers.select();
