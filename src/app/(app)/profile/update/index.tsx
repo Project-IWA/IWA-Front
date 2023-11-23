@@ -5,6 +5,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useUpdateUserMutation } from "../../../auth/usersApiSlice";
 import { router } from "expo-router";
 import { ScrollView } from "native-base";
+import { Snackbar } from "react-native-paper";
 
 export default function UpdateProfile() {
   const user: User | undefined = useSelector(selectCurrentUser) as User;
@@ -13,12 +14,16 @@ export default function UpdateProfile() {
 
   const [updateUser] = useUpdateUserMutation();
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function handleUpdateUser() {
     try {
       await updateUser(newUser).unwrap();
+      setSnackbar("Utilisateur mis à jour !");
       router.push("/profile");
     } catch (err: any) {
       console.error(err.message);
+      setSnackbar("Erreur, utilisateur non mis à jour");
     }
   }
 
@@ -59,6 +64,13 @@ export default function UpdateProfile() {
           Enregistrer
         </Text>
       </TouchableOpacity>
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </ScrollView>
   );
 }

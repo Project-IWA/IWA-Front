@@ -11,6 +11,8 @@ import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from "../../auth/usersApiSlice";
+import { useState } from "react";
+import { Snackbar } from "react-native-paper";
 
 export default function Offer() {
   const { notification: notificationId } = useLocalSearchParams() as {
@@ -30,11 +32,15 @@ export default function Offer() {
   const [updateNotification] = useUpdateNotificationMutation();
   const [deleteUser] = useDeleteUserMutation();
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function handleDeleteUser() {
     try {
       await deleteUser({ idUser: notification?.idUser }).unwrap();
+      setSnackbar("Utilisateur supprimé !");
     } catch (err: any) {
       console.error(err.message);
+      setSnackbar("Erreur, utilisateur non supprimé");
     }
   }
 
@@ -45,8 +51,10 @@ export default function Offer() {
         ...notification,
         etat: "Validée",
       });
+      setSnackbar("Notification mise à jour !");
     } catch (err: any) {
       console.error("Erreur", err.message);
+      setSnackbar("Erreur, notification non mise à jour");
     }
   }
 
@@ -70,6 +78,13 @@ export default function Offer() {
       <TouchableOpacity onPress={handleUpdateNotification}>
         Valider la demande
       </TouchableOpacity>
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </View>
   );
 }

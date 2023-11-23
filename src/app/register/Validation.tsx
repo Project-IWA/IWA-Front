@@ -8,6 +8,8 @@ import { router } from "expo-router";
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { RootState } from "../store";
 import { selectEtablissementById } from "../etablissements/etablissementApiSlice";
+import { useState } from "react";
+import { Snackbar } from "react-native-paper";
 
 export default function Validation() {
   const registeringUser: Registering = useSelector(
@@ -24,6 +26,8 @@ export default function Validation() {
 
   const [addNewUser, { isLoading }] = useAddNewUserMutation();
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function onRegister() {
     try {
       const logResult = await addNewUser({
@@ -32,9 +36,11 @@ export default function Validation() {
       const { user, accessToken, tokenType } = logResult;
       await setToken(`${tokenType} ${accessToken}`);
       dispatch(setUser({ user }));
+      setSnackbar("Enregistrement réussi !");
       router.push("/home");
     } catch (err: any) {
       console.error("Error", err.message);
+      setSnackbar("Erreur, enregistrement échoué !");
     }
   }
 
@@ -79,6 +85,13 @@ export default function Validation() {
           </TouchableOpacity>
         </View>
       )}
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </View>
   );
 }

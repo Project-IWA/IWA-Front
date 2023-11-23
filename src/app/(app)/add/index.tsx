@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { useAddNewOfferMutation } from "../offers/offersApiSlice";
 import { router } from "expo-router";
+import { Snackbar } from "react-native-paper";
 
 export default function NewOffer() {
   const [offer, setOffer] = useState<Offre>({
@@ -22,17 +23,21 @@ export default function NewOffer() {
     attributions: [],
   });
 
-  const [AddOffer, { isLoading }] = useAddNewOfferMutation();
+  const [AddOffer] = useAddNewOfferMutation();
 
   const [showDateDebut, setShowDateDebut] = useState<boolean>(false);
   const [showDateFin, setShowDateFin] = useState<boolean>(false);
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function handleAddOffer() {
     try {
       const newOffer: Offre = await AddOffer(offer).unwrap();
+      setSnackbar("Offre ajoutée !");
       router.push(`/offers/${newOffer.idOffre}`);
     } catch (err: any) {
       console.error("Erreur", err.message);
+      setSnackbar("Erreur, offre non ajoutée");
     }
   }
 
@@ -119,6 +124,13 @@ export default function NewOffer() {
       >
         <Text className="text-white font-bold text-lg">Valider</Text>
       </TouchableOpacity>
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </View>
   );
 }
