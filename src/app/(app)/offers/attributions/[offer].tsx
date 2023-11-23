@@ -2,7 +2,6 @@ import { FlatList, Text, TextInput, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import {
   selectOfferById,
-  useUpdateAttributionMutation,
 } from "../offersApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -21,22 +20,7 @@ export default function Attributions() {
 
   const [snackbar, setSnackbar] = useState<string | null>(null);
 
-  const [updateAttribution, { isLoading }] = useUpdateAttributionMutation();
-
-  const canSave = [note?.avis, note?.note].every(Boolean) && !isLoading;
-
-  async function addNotation() {
-    try {
-      await updateAttribution({
-        ...note,
-        etat: "Terminée",
-      } as Attribution).unwrap();
-      setSnackbar("Candidat noté !");
-    } catch (err: any) {
-      console.error(err.message);
-      setSnackbar("Erreur, candidat non noté");
-    }
-  }
+  const canSave = [note?.avis, note?.note].every(Boolean)
 
   function changeNote(text: string) {
     if (parseFloat(text) <= 5) {
@@ -137,7 +121,7 @@ export default function Attributions() {
               mode="contained"
               className="w-16 rounded-lg"
               disabled={!canSave}
-              onPress={addNotation}
+              onPress={() => { }}
             >
               Valider
             </Button>

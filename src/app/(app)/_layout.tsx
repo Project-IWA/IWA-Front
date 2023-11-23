@@ -15,6 +15,8 @@ import { removeToken } from "../../utils/token";
 export default function AppLayout() {
   const { data: fetchData, isLoading } = useAuthQuery();
 
+  console.log("fetchData1", fetchData)
+
   const user: User | null = useSelector(selectCurrentUser);
 
   const pathname = usePathname();
@@ -24,7 +26,9 @@ export default function AppLayout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("fetchData2", fetchData)
     if (fetchData) {
+      console.log("fetchData3", fetchData)
       dispatch(setUser(fetchData));
     }
   }, [fetchData]);

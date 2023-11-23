@@ -16,7 +16,7 @@ export default function Validation() {
     selectCurrentRegisteringUser
   );
 
-  const { username, nom, prenom, tel, etablissement } = registeringUser;
+  const { username, nom, prenom, tel, etablissement, password } = registeringUser;
 
   const etab: Etablissement | undefined = useSelector((state: RootState) =>
     selectEtablissementById(state, etablissement.idEtablissement!)
@@ -30,14 +30,17 @@ export default function Validation() {
 
   async function onRegister() {
     try {
+      console.log("ICI")
       const logResult = await addNewUser({
-        ...registeringUser,
+        username, password
       }).unwrap();
+      console.log("OK")
+      console.log(logResult)
       const { user, accessToken, tokenType } = logResult;
       await setToken(`${tokenType} ${accessToken}`);
       dispatch(setUser({ user }));
       setSnackbar("Enregistrement réussi !");
-      router.push("/home");
+      router.push("/");
     } catch (err: any) {
       console.error("Error", err.message);
       setSnackbar("Erreur, enregistrement échoué !");
@@ -77,7 +80,10 @@ export default function Validation() {
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-blue-500 py-3 px-6 rounded-lg flex-1"
-            onPress={onRegister}
+            onPress={() => {
+              console.log("TAMERE")
+              onRegister()
+            }}
           >
             <Text className="text-white font-bold text-lg text-center">
               Terminer

@@ -24,10 +24,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: () => `${usersMS}/auth`,
     }),
     addNewUser: builder.mutation({
-      query: (registeringUser: Registering) => ({
+      query: ({username, password}: {username: string; password: string}) => ({
         url: `${usersMS}/auth/register`,
         method: "POST",
-        body: { ...registeringUser },
+        body: { username, password },
       }),
       invalidatesTags: [{ type: "User", id: "LIST" }],
     }),

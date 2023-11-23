@@ -16,11 +16,10 @@ export default function NewOffer() {
     avantages: "",
     etat: "Ouverte",
     nombreCandidats: 0,
-    idUser: "",
-    idEtablissement: "",
+    idEtablissement: "1",
     description: "",
     idOffre: "",
-    attributions: [],
+    idTypeEmploi: "1",
   });
 
   const [AddOffer] = useAddNewOfferMutation();
@@ -116,9 +115,8 @@ export default function NewOffer() {
         className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
       />
       <TouchableOpacity
-        className={`${
-          canSave ? "bg-blue-500" : "bg-gray-400"
-        } py-3 px-6 rounded-lg items-center`}
+        className={`${canSave ? "bg-blue-500" : "bg-gray-400"
+          } py-3 px-6 rounded-lg items-center`}
         onPress={handleAddOffer}
         disabled={!canSave}
       >

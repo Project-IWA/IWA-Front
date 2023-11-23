@@ -8,7 +8,8 @@ type Offre = {
   avantages: string;
   etat: "Ouverte" | "Archivée";
   nombreCandidats: number;
-  attributions: Attribution[];
-  idUser: string;
+  attributions?: Attribution[];
+  idUser?: string;
   idEtablissement: string;
+  idTypeEmploi: string;
 };

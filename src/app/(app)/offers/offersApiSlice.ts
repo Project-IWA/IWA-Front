@@ -62,7 +62,6 @@ export const {
   useAddNewOfferMutation,
   useUpdateOfferMutation,
   useDeleteOfferMutation,
-  useUpdateAttributionMutation,
 } = extendedApiSlice;
 
 export const selectOffersResult = extendedApiSlice.endpoints.getOffers.select();

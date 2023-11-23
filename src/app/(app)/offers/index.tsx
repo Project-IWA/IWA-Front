@@ -28,11 +28,7 @@ export default function Offers() {
             onPress={() => router.push(`/offers/${item.idOffre}`)}
           >
             <Text className="text-xl font-semibold mb-2">{item.emploi}</Text>
-            <Text className="text-gray-500 mb-2">
-              {`${item.dateDebut.toISOString().slice(0, 10)} - ${item.dateFin
-                .toISOString()
-                .slice(0, 10)}`}
-            </Text>
+            {/* ajouter les dates */}
             <Text className="text-blue-600 font-bold text-lg mb-2">
               {item.salaire} €
             </Text>

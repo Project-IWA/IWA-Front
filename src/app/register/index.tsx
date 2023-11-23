@@ -12,14 +12,9 @@ function GetPage({ currentPage }: { currentPage: number }) {
     return <Credentials />;
   }
   if (currentPage === 1) {
-    return <PersonalInfos />;
-  }
-  if (currentPage === 2) {
-    return <Etablissement />;
-  }
-  if (currentPage === 3) {
     return <Validation />;
   }
+  return <></>
 }
 
 export default function Register() {

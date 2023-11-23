@@ -33,7 +33,7 @@ export default function Connect() {
       await setToken(`${tokenType} ${accessToken}`);
       dispatch(setUser({ user }));
       setSnackbar("Connexion réussie !");
-      router.push("/home");
+      router.push("/");
     } catch (err: any) {
       console.error("Error", err.message);
       setSnackbar("Erreur, connexion échouée");
@@ -66,9 +66,8 @@ export default function Connect() {
         <ActivityIndicator size="large" color="blue" className="mt-4" />
       ) : (
         <TouchableOpacity
-          className={`${
-            canSave ? "bg-blue-500" : "bg-gray-400"
-          } py-3 px-6 rounded-lg mt-4`}
+          className={`${canSave ? "bg-blue-500" : "bg-gray-400"
+            } py-3 px-6 rounded-lg mt-4`}
           onPress={onLogin}
           disabled={!canSave}
         >

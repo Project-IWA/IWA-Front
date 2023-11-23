@@ -1,13 +1,20 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { selectNotifsByUser } from "./notificationsApiSlice";
+import { selectNotifsByUser, useGetNotificationsQuery } from "./notificationsApiSlice";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 
 export default function Notifications() {
+
+  const { isLoading } = useGetNotificationsQuery();
+
   const notifications = useSelector((state: RootState) =>
     selectNotifsByUser(state)
   );
+
+  if (isLoading) {
+    return <Text>Loading notifications...</Text>;
+  }
 
   return (
     <View className="flex-1 items-center justify-center mt-12">
@@ -18,12 +25,11 @@ export default function Notifications() {
         keyExtractor={(item: Notif) => item.idNotification as string}
         renderItem={({ item }) => (
           <TouchableOpacity
-            className={`p-4 rounded-lg shadow-md mx-4 my-2 ${
-              item.etat === "Validée" ? "bg-gray-500" : "bg-gray-200"
-            }`}
+            className={`p-4 rounded-lg shadow-md mx-4 my-2 ${item.etat === "Validée" ? "bg-gray-500" : "bg-gray-200"
+              }`}
             onPress={() => router.push(`/notifications/${item.idNotification}`)}
           >
-            <Text className="text-xl font-semibold">{`${item.type} de `}</Text>
+            <Text className="text-xl font-semibold">{`${item.type}`}</Text>
           </TouchableOpacity>
         )}
       />
