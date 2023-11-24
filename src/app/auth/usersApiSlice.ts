@@ -24,7 +24,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: () => `${usersMS}/auth`,
     }),
     addNewUser: builder.mutation({
-      query: ({username, password}: {username: string; password: string}) => ({
+      query: ({
+        username,
+        password,
+      }: {
+        username: string;
+        password: string;
+      }) => ({
         url: `${usersMS}/auth/register`,
         method: "POST",
         body: { username, password },

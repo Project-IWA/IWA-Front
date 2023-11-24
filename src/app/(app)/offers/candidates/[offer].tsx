@@ -17,7 +17,7 @@ export default function Matchings() {
     selectAllMatchings(state)
   );
 
-  const [dialogAccept, setDialogAccept] = useState<Attribution | null>(null);
+  const [dialogAccept, setDialogAccept] = useState<AddAttribution | null>(null);
 
   const [snackbar, setSnackbar] = useState<string | null>(null);
 
@@ -25,7 +25,7 @@ export default function Matchings() {
 
   async function handleAddNewAttribution() {
     try {
-      await addNewAttribution(dialogAccept as Attribution).unwrap();
+      await addNewAttribution(dialogAccept).unwrap();
       setSnackbar("Candidat accepté !");
     } catch (err: any) {
       console.error(err.message);

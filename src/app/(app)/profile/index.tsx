@@ -18,12 +18,13 @@ export default function Profile() {
 
   async function handleSendNotif() {
     try {
+      setDialog(false);
       await addNewNotif({
         idUser: user?.idUser,
         etat: "En attente",
         date: new Date(),
         type: "Suppression",
-      }).unwrap();
+      } as AddNotif).unwrap();
       setSnackbar("Demande de suppression envoyée !");
     } catch (err: any) {
       console.error(err.message);

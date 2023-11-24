@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { selectCurrentRegisteringUser } from "./registerSlice";
 import Credentials from "./Credentials";
 import PersonalInfos from "./PersonalInfos";
-import Etablissement from "./Etablissement";
 import Validation from "./Validation";
+import Formule from "./Formule";
 import { View, Text } from "react-native";
 
 function GetPage({ currentPage }: { currentPage: number }) {
@@ -12,9 +12,15 @@ function GetPage({ currentPage }: { currentPage: number }) {
     return <Credentials />;
   }
   if (currentPage === 1) {
+    return <PersonalInfos />;
+  }
+  if (currentPage === 2) {
+    return <Formule />;
+  }
+  if (currentPage === 3) {
     return <Validation />;
   }
-  return <></>
+  return <></>;
 }
 
 export default function Register() {

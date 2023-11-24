@@ -1,5 +1,4 @@
-type Offre = {
-  idOffre?: string;
+type AddOffre = {
   emploi: string;
   description: string;
   dateDebut: Date;
@@ -8,8 +7,23 @@ type Offre = {
   avantages: string;
   etat: "Ouverte" | "Archivée";
   nombreCandidats: number;
-  attributions?: Attribution[];
-  idUser?: string;
+  idUser: string;
   idEtablissement: string;
   idTypeEmploi: string;
+};
+
+type Offre = {
+  emploi: string;
+  description: string;
+  dateDebut: Date;
+  dateFin: Date;
+  salaire: number;
+  avantages: string;
+  etat: "Ouverte" | "Archivée";
+  nombreCandidats: number;
+  idUser: string;
+  idEtablissement: string;
+  idTypeEmploi: string;
+  idOffre: string;
+  attributions: Attribution[];
 };

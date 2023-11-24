@@ -18,7 +18,7 @@ export const apiSlice: any = createApi({
   tagTypes: [
     "User",
     "Offer",
-    "Establissement",
+    "Etablissement",
     "Formule",
     "Notification",
     "Matching",

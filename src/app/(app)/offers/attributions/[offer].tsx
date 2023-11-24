@@ -1,8 +1,6 @@
 import { FlatList, Text, TextInput, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import {
-  selectOfferById,
-} from "../offersApiSlice";
+import { selectOfferById } from "../offersApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Button as Btn } from "native-base";
@@ -16,21 +14,21 @@ export default function Attributions() {
     selectOfferById(state, offerId)
   );
 
-  const [note, setNote] = useState<Attribution | null>(null);
+  const [note, setNote] = useState<UpdateAttribution | null>(null);
 
   const [snackbar, setSnackbar] = useState<string | null>(null);
 
-  const canSave = [note?.avis, note?.note].every(Boolean)
+  const canSave = [note?.avis, note?.note].every(Boolean);
 
   function changeNote(text: string) {
     if (parseFloat(text) <= 5) {
       setNote({
         ...note,
         note: parseFloat(text) || 0,
-      } as Attribution);
+      } as UpdateAttribution);
     }
     if (text.trim() === "") {
-      setNote({ ...note, note: undefined } as Attribution);
+      setNote({ ...note, note: undefined } as UpdateAttribution);
     }
   }
 
@@ -43,10 +41,10 @@ export default function Attributions() {
       <Text className="text-2xl font-bold mb-4">
         Candidats choisis pour cette offre
       </Text>
-      <FlatList<Attribution>
+      <FlatList<UpdateAttribution>
         className="w-full"
         data={offer.attributions}
-        keyExtractor={(item: Attribution) => item.emailCandidat}
+        keyExtractor={(item: UpdateAttribution) => item.emailCandidat}
         renderItem={({ item }) => (
           <View className="p-2 m-2 bg-gray-200 rounded-lg shadow-black flex flex-col">
             <Text className="text-xl font-bold mb-2">{item.emailCandidat}</Text>
@@ -98,7 +96,7 @@ export default function Attributions() {
               <TextInput
                 value={note?.avis}
                 onChangeText={(text) =>
-                  setNote({ ...note, avis: text } as Attribution)
+                  setNote({ ...note, avis: text } as UpdateAttribution)
                 }
                 className="bg-gray-100 p-2 rounded-md"
               />
@@ -107,7 +105,9 @@ export default function Attributions() {
               <Text className="font-semibold mb-2">Note /5:</Text>
               <TextInput
                 keyboardType="numeric"
-                value={note?.note ? (note as Attribution).note?.toString() : ""}
+                value={
+                  note?.note ? (note as UpdateAttribution).note?.toString() : ""
+                }
                 onChangeText={(text) => changeNote(text)}
                 className="bg-gray-100 p-2 rounded-md"
               />
@@ -121,7 +121,9 @@ export default function Attributions() {
               mode="contained"
               className="w-16 rounded-lg"
               disabled={!canSave}
-              onPress={() => { }}
+              onPress={() => {
+                setNote(null);
+              }}
             >
               Valider
             </Button>

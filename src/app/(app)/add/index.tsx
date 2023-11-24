@@ -6,9 +6,13 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { useAddNewOfferMutation } from "../offers/offersApiSlice";
 import { router } from "expo-router";
 import { Snackbar } from "react-native-paper";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../auth/authSlice";
 
 export default function NewOffer() {
-  const [offer, setOffer] = useState<Offre>({
+  const user: User | undefined = useSelector(selectCurrentUser) as User;
+
+  const [offer, setOffer] = useState<AddOffre>({
     emploi: "",
     dateDebut: new Date(),
     dateFin: new Date(),
@@ -18,8 +22,8 @@ export default function NewOffer() {
     nombreCandidats: 0,
     idEtablissement: "1",
     description: "",
-    idOffre: "",
     idTypeEmploi: "1",
+    idUser: user.idUser,
   });
 
   const [AddOffer] = useAddNewOfferMutation();
@@ -115,8 +119,9 @@ export default function NewOffer() {
         className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
       />
       <TouchableOpacity
-        className={`${canSave ? "bg-blue-500" : "bg-gray-400"
-          } py-3 px-6 rounded-lg items-center`}
+        className={`${
+          canSave ? "bg-blue-500" : "bg-gray-400"
+        } py-3 px-6 rounded-lg items-center`}
         onPress={handleAddOffer}
         disabled={!canSave}
       >

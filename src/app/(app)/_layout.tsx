@@ -1,7 +1,7 @@
 import { Link, Redirect, Slot } from "expo-router";
 import { selectCurrentUser, setUser, logOut } from "../auth/authSlice";
 import { useSelector } from "react-redux";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useAuthQuery } from "../auth/usersApiSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -9,13 +9,13 @@ import { usePathname } from "expo-router";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAdd, faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import NotificationBadge from "./NotificationBadge";
-import { Portal, Dialog, Button } from "react-native-paper";
+import { Portal, Dialog, Button, Icon } from "react-native-paper";
 import { removeToken } from "../../utils/token";
 
 export default function AppLayout() {
   const { data: fetchData, isLoading } = useAuthQuery();
 
-  console.log("fetchData1", fetchData)
+  console.log("fetchData1", fetchData);
 
   const user: User | null = useSelector(selectCurrentUser);
 
@@ -26,9 +26,9 @@ export default function AppLayout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("fetchData2", fetchData)
+    console.log("fetchData2", fetchData);
     if (fetchData) {
-      console.log("fetchData3", fetchData)
+      console.log("fetchData3", fetchData);
       dispatch(setUser(fetchData));
     }
   }, [fetchData]);
@@ -65,15 +65,21 @@ export default function AppLayout() {
                 color={pathname === "/add" ? "rgb(37 99 235)" : "gray"}
               />
             </Link>
-            <Link href="/profile">
-              <FontAwesomeIcon
-                icon={faUser}
-                size={24}
-                color={pathname === "/profile" ? "rgb(37 99 235)" : "gray"}
-              />
-            </Link>
           </>
         )}
+        <Link href="/profile">
+          <FontAwesomeIcon
+            icon={faUser}
+            size={24}
+            color={pathname === "/profile" ? "rgb(37 99 235)" : "gray"}
+          />
+        </Link>
+        <TouchableOpacity
+          onPress={() => setDialog(true)}
+          className="translate-y-0.5"
+        >
+          <Icon source="logout" size={26} color="white" />
+        </TouchableOpacity>
         <Portal>
           <Dialog
             visible={dialog}
@@ -97,6 +103,7 @@ export default function AppLayout() {
                 mode="contained"
                 className="w-16 rounded-lg"
                 onPress={async () => {
+                  setDialog(false);
                   await removeToken();
                   dispatch(logOut(undefined));
                 }}
