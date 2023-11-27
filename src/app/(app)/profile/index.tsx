@@ -59,10 +59,10 @@ export default function Profile() {
           Formule: {user.formule?.typeFormule}
         </Text>
         <Text className="font-semibold text-blue-500">
-          Début: {user.dateDebutSouscription?.toISOString().slice(0, 10)}
+          Début: {/* date */}
         </Text>
         <Text className="font-semibold text-blue-500">
-          Fin: {user.dateFinSouscription?.toISOString().slice(0, 10)}
+          Fin: {/* date */}
         </Text>
       </View>
       {user.etablissementPrincipal && (

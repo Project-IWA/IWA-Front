@@ -20,5 +20,5 @@ type Notif = {
   type: "Suppression" | "Validation";
   idNotification: string;
   idAdmin?: string;
-  idUser: User;
+  idUser: string;
 };

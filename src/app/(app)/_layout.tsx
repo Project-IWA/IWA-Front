@@ -1,5 +1,5 @@
 import { Link, Redirect, Slot } from "expo-router";
-import { selectCurrentUser, setUser, logOut } from "../auth/authSlice";
+import { selectCurrentUser, logOut } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
@@ -57,11 +57,8 @@ export default function AppLayout() {
             color={pathname === "/profile" ? "rgb(37 99 235)" : "gray"}
           />
         </Link>
-        <TouchableOpacity
-          onPress={() => setDialog(true)}
-          className="translate-y-0.5"
-        >
-          <Icon source="logout" size={26} color="white" />
+        <TouchableOpacity onPress={() => setDialog(true)}>
+          <Icon source="logout" size={26} color="gray" />
         </TouchableOpacity>
         <Portal>
           <Dialog

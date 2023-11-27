@@ -8,15 +8,12 @@ import { ScrollView } from "native-base";
 import { Snackbar } from "react-native-paper";
 
 export default function UpdateProfile() {
-  const { idUser, prenom, nom, tel }: User | undefined = useSelector(
+  const user: User | undefined = useSelector(
     selectCurrentUser
   ) as User;
 
-  const [newUser, setNewUser] = useState<UpdateUser>({
-    idUser,
-    prenom,
-    nom,
-    tel: tel ?? "",
+  const [newUser, setNewUser] = useState<User>({
+    ...user
   });
 
   const [updateUser] = useUpdateUserMutation();

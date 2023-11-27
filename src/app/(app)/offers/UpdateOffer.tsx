@@ -12,7 +12,11 @@ interface UpdateOfferProps {
 }
 
 export default function UpdateOffer({ offre }: UpdateOfferProps) {
-  const [offer, setOffer] = useState<Offre>(offre);
+  const [offer, setOffer] = useState<AddOffre>({
+    ...offre,
+    dateDebut: new Date(offre.dateDebut),
+    dateFin: new Date(offre.dateFin),
+  });
 
   const [updateOffer] = useUpdateOfferMutation();
 
@@ -73,7 +77,7 @@ export default function UpdateOffer({ offre }: UpdateOfferProps) {
       </View>
       {showDateDebut && (
         <DateTimePicker
-          value={offer.dateDebut}
+          value={new Date(offer.dateDebut)}
           mode="date"
           display="default"
           onChange={(_, date) => {

@@ -30,7 +30,7 @@ export default function Offer() {
   const { isLoading: loadingUsers } = useGetUsersQuery();
 
   const user: User | undefined = useSelector((state: RootState) =>
-    selectUserById(state, notification.idUser.idUser)
+    selectUserById(state, notification.idUser)
   ) as User;
 
   const [updateNotification] = useUpdateNotificationMutation();
