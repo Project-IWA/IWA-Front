@@ -1,15 +1,18 @@
 import { useLocalSearchParams } from "expo-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { selectOfferById } from "./offersApiSlice";
+import { selectOfferById, useGetOffersQuery } from "./offersApiSlice";
 import { View, Text, ScrollView } from "react-native";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { Button } from "native-base";
 import UpdateOffer from "./UpdateOffer";
+import Loading from "../../../ui/Loading";
 
 export default function Offer() {
   const { offer: offerId } = useLocalSearchParams() as { offer: string };
+
+  const { isLoading } = useGetOffersQuery();
 
   const offer: Offre | undefined = useSelector((state: RootState) =>
     selectOfferById(state, offerId)
@@ -17,8 +20,12 @@ export default function Offer() {
 
   const [update, setUpdate] = useState<boolean>(false);
 
+  if (isLoading) {
+    return <Loading text="Loading offre" />;
+  }
+
   if (!offer) {
-    return <Text>Erreur, offre non trouvée</Text>;
+    return <Loading text="Erreur, offre non trouvée" />;
   }
 
   return (

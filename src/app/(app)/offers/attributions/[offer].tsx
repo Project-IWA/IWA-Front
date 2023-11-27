@@ -1,14 +1,18 @@
 import { FlatList, Text, TextInput, View } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { selectOfferById } from "../offersApiSlice";
+import { router, useLocalSearchParams } from "expo-router";
+import { selectOfferById, useGetOffersQuery } from "../offersApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Button as Btn } from "native-base";
 import { useState } from "react";
 import { Dialog, Portal, Snackbar, Button } from "react-native-paper";
+import Loading from "../../../../ui/Loading";
+import { useUpdateAttributionMutation } from "./attributionsApiSlice";
 
 export default function Attributions() {
   const { offer: offerId } = useLocalSearchParams() as { offer: string };
+
+  const { isLoading } = useGetOffersQuery();
 
   const offer: Offre | undefined = useSelector((state: RootState) =>
     selectOfferById(state, offerId)
@@ -17,6 +21,8 @@ export default function Attributions() {
   const [note, setNote] = useState<UpdateAttribution | null>(null);
 
   const [snackbar, setSnackbar] = useState<string | null>(null);
+
+  const [updateAttribution] = useUpdateAttributionMutation();
 
   const canSave = [note?.avis, note?.note].every(Boolean);
 
@@ -32,8 +38,23 @@ export default function Attributions() {
     }
   }
 
+  async function handleUpdateAttribution() {
+    try {
+      await updateAttribution(note).unwrap();
+      setNote(null);
+      router.push("/offers");
+    } catch (err: any) {
+      console.error(err.message);
+      setSnackbar("Erreur, attribution non notée");
+    }
+  }
+
+  if (isLoading) {
+    return <Loading text="Loading offre" />;
+  }
+
   if (!offer) {
-    return <Text>Erreur, offre non trouvée</Text>;
+    return <Loading text="Erreur, offre non trouvée" />;
   }
 
   return (
@@ -121,9 +142,7 @@ export default function Attributions() {
               mode="contained"
               className="w-16 rounded-lg"
               disabled={!canSave}
-              onPress={() => {
-                setNote(null);
-              }}
+              onPress={handleUpdateAttribution}
             >
               Valider
             </Button>

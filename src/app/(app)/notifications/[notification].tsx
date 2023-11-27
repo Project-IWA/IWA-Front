@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
   selectNotificationById,
+  useGetNotificationsQuery,
   useUpdateNotificationMutation,
 } from "./notificationsApiSlice";
 import { View, Text, TouchableOpacity } from "react-native";
@@ -20,11 +21,13 @@ export default function Offer() {
     notification: string;
   };
 
+  const { isLoading: loadingNotif } = useGetNotificationsQuery();
+
   const notification: Notif | undefined = useSelector((state: RootState) =>
     selectNotificationById(state, notificationId)
   ) as Notif;
 
-  const { isLoading } = useGetUsersQuery();
+  const { isLoading: loadingUsers } = useGetUsersQuery();
 
   const user: User | undefined = useSelector((state: RootState) =>
     selectUserById(state, notification.idUser.idUser)
@@ -59,12 +62,12 @@ export default function Offer() {
     }
   }
 
-  if (isLoading) {
+  if (loadingUsers || loadingNotif) {
     return <Loading text="Loading notification" />;
   }
 
   if (!notification || !user) {
-    return <Text>Erreur, notification non trouvée</Text>;
+    return <Loading text="Erreur, notification non trouvée" />;
   }
 
   return (

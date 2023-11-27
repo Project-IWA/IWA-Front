@@ -2,8 +2,7 @@ import { Link, Redirect, Slot } from "expo-router";
 import { selectCurrentUser, setUser, logOut } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
-import { useAuthQuery } from "../auth/usersApiSlice";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { usePathname } from "expo-router";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -11,13 +10,8 @@ import { faAdd, faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import NotificationBadge from "./NotificationBadge";
 import { Portal, Dialog, Button, Icon } from "react-native-paper";
 import { removeToken } from "../../utils/token";
-import Loading from "../../ui/Loading";
 
 export default function AppLayout() {
-  const { data: fetchData, isLoading } = useAuthQuery();
-
-  console.log("fetchData1", fetchData);
-
   const user: User | null = useSelector(selectCurrentUser);
 
   const pathname = usePathname();
@@ -25,18 +19,6 @@ export default function AppLayout() {
   const [dialog, setDialog] = useState<boolean>(false);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("fetchData2", fetchData);
-    if (fetchData) {
-      console.log("fetchData3", fetchData);
-      dispatch(setUser({ user: fetchData }));
-    }
-  }, [fetchData]);
-
-  if (isLoading) {
-    return <Loading text="Loading offres..." />;
-  }
 
   if (!user) {
     return <Redirect href="/connect" />;

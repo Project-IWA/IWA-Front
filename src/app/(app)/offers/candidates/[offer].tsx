@@ -8,11 +8,14 @@ import { Portal, Dialog, Button, Snackbar } from "react-native-paper";
 import { useState } from "react";
 import { useAddNewAttributionMutation } from "../attributions/attributionsApiSlice";
 import Loading from "../../../../ui/Loading";
+import { useGetOffersQuery } from "../offersApiSlice";
 
 export default function Matchings() {
   const { offerId } = useLocalSearchParams() as { offerId: string };
 
-  const { isLoading } = useGetMatchingsQuery({ offerId });
+  const { isLoading: loadingOffre } = useGetOffersQuery();
+
+  const { isLoading: loadingMatchings } = useGetMatchingsQuery({ offerId });
 
   const matchings: Matching[] = useSelector((state: RootState) =>
     selectAllMatchings(state)
@@ -34,7 +37,7 @@ export default function Matchings() {
     }
   }
 
-  if (isLoading) {
+  if (loadingOffre || loadingMatchings) {
     return <Loading text="Loading candidats" />;
   }
 

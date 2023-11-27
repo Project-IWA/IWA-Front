@@ -208,6 +208,12 @@ export default function NewOffer() {
         }
         className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
       />
+      <TextInput
+        placeholder="Avantages"
+        value={offer.avantages}
+        onChangeText={(text) => setOffer({ ...offer, avantages: text })}
+        className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
+      />
       <TouchableOpacity
         className={`${
           canSave ? "bg-blue-500" : "bg-gray-400"
