@@ -15,8 +15,8 @@ type AddOffre = {
 type Offre = {
   emploi: string;
   description: string;
-  dateDebut: Date;
-  dateFin: Date;
+  dateDebut: string;
+  dateFin: string;
   salaire: number;
   avantages: string;
   etat: "Ouverte" | "Archivée";

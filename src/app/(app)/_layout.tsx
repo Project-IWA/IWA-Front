@@ -14,9 +14,8 @@ import { removeToken } from "../../utils/token";
 import Loading from "../../ui/Loading";
 
 export default function AppLayout() {
-  const { data: fetchData, isLoading } = useAuthQuery();
 
-  console.log("fetchData1", fetchData);
+  const { data: fetchData, isLoading } = useAuthQuery();
 
   const user: User | null = useSelector(selectCurrentUser);
 
@@ -27,12 +26,12 @@ export default function AppLayout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("fetchData2", fetchData);
-    if (fetchData) {
-      console.log("fetchData3", fetchData);
-      dispatch(setUser({ user: fetchData }));
+    if (fetchData && !user) {
+      dispatch(setUser(fetchData));
     }
   }, [fetchData]);
+
+  console.log(fetchData)
 
   if (isLoading) {
     return <Loading text="Loading offres..." />;
@@ -77,9 +76,8 @@ export default function AppLayout() {
         </Link>
         <TouchableOpacity
           onPress={() => setDialog(true)}
-          className="translate-y-0.5"
         >
-          <Icon source="logout" size={26} color="white" />
+          <Icon source="logout" size={26} color="gray" />
         </TouchableOpacity>
         <Portal>
           <Dialog

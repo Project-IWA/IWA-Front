@@ -24,7 +24,7 @@ const authSlice = createSlice({
         state.user = user;
       }
     },
-    setUser: (state: AuthState, action: PayloadAction<{ user: User }>) => {
+    setUser: (state: AuthState, action: PayloadAction<{ user: User}>) => {
       const { user } = action.payload;
       if (user) {
         state.user = user;

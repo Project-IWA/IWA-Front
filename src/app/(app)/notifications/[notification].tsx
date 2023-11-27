@@ -27,7 +27,7 @@ export default function Offer() {
   const { isLoading } = useGetUsersQuery();
 
   const user: User | undefined = useSelector((state: RootState) =>
-    selectUserById(state, notification.idUser.idUser)
+    selectUserById(state, notification.idUser)
   ) as User;
 
   const [updateNotification] = useUpdateNotificationMutation();
@@ -64,7 +64,7 @@ export default function Offer() {
   }
 
   if (!notification || !user) {
-    return <Text>Erreur, notification non trouvée</Text>;
+    return <Loading text="Erreur, notification non trouvée" />
   }
 
   return (

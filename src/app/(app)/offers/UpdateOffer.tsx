@@ -54,7 +54,7 @@ export default function UpdateOffer({ offre }: UpdateOfferProps) {
       />
       <View className="mb-4 flex flex-row">
         <Text className="text-lg font-semibold mb-2">
-          Date de début : {offer.dateDebut.toISOString().slice(0, 10)}
+          Date de début : {/* date */}
         </Text>
         <TouchableOpacity
           className="ml-4"
@@ -65,7 +65,7 @@ export default function UpdateOffer({ offre }: UpdateOfferProps) {
       </View>
       <View className="mb-4 flex flex-row">
         <Text className="text-lg font-semibold mb-2">
-          Date de fin : {offer.dateFin.toISOString().slice(0, 10)}
+          Date de fin : {/* date */}
         </Text>
         <TouchableOpacity className="ml-4" onPress={() => setShowDateFin(true)}>
           <FontAwesomeIcon size={24} icon={faCalendar} color="rgb(37 99 235)" />
@@ -126,9 +126,8 @@ export default function UpdateOffer({ offre }: UpdateOfferProps) {
         <Select.Item label="Archivée" value="Archivée" />
       </Select>
       <TouchableOpacity
-        className={`${
-          canSave ? "bg-blue-500" : "bg-gray-400"
-        } py-3 px-6 mt-2 rounded-lg items-center`}
+        className={`${canSave ? "bg-blue-500" : "bg-gray-400"
+          } py-3 px-6 mt-2 rounded-lg items-center`}
         onPress={handleUpdateOffer}
         disabled={!canSave}
       >

@@ -67,7 +67,7 @@ export default function NewOffer() {
     try {
       const newOffer: Offre = await AddOffer(offer).unwrap();
       setSnackbar("Offre ajoutée !");
-      router.push(`/offers/${newOffer.idOffre}`);
+      router.push("/offers");
     } catch (err: any) {
       console.error("Erreur", err.message);
       setSnackbar("Erreur, offre non ajoutée");
@@ -104,6 +104,7 @@ export default function NewOffer() {
       <Select
         selectedValue={offer.idEtablissement}
         minWidth="300"
+        className="mb-2"
         accessibilityLabel="Choisissez un Etablissement"
         placeholder="Choisissez un etablissement"
         _selectedItem={{
@@ -122,7 +123,7 @@ export default function NewOffer() {
         ))}
       </Select>
       <TouchableOpacity
-        className="bg-gray-400 py-3 px-6 rounded-lg items-center"
+        className="bg-blue-300 py-3 px-6 rounded-lg items-center mb-2"
         onPress={() => setDialogEtablissement("")}
       >
         <Text className="text-white font-bold text-lg">
@@ -138,6 +139,7 @@ export default function NewOffer() {
       <Select
         selectedValue={offer.idTypeEmploi}
         minWidth="300"
+        className="mb-2"
         accessibilityLabel="Choisissez un type d'emploi"
         placeholder="Choisissez un type d'emploi"
         _selectedItem={{
@@ -209,9 +211,8 @@ export default function NewOffer() {
         className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
       />
       <TouchableOpacity
-        className={`${
-          canSave ? "bg-blue-500" : "bg-gray-400"
-        } py-3 px-6 rounded-lg items-center`}
+        className={`${canSave ? "bg-blue-500" : "bg-gray-400"
+          } py-3 px-6 rounded-lg items-center`}
         onPress={handleAddOffer}
         disabled={!canSave}
       >

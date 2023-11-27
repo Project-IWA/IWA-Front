@@ -7,7 +7,7 @@ interface LoadingProps {
 export default function Loading({ text }: LoadingProps) {
   return (
     <View className="flex-1 items-center justify-center">
-      <Text>{text}</Text>
+      <Text className="text-xl">{text}</Text>
     </View>
   );
 }

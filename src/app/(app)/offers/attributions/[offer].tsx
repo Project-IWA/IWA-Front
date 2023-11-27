@@ -6,6 +6,7 @@ import { RootState } from "../../../store";
 import { Button as Btn } from "native-base";
 import { useState } from "react";
 import { Dialog, Portal, Snackbar, Button } from "react-native-paper";
+import Loading from "../../../../ui/Loading";
 
 export default function Attributions() {
   const { offer: offerId } = useLocalSearchParams() as { offer: string };
@@ -33,7 +34,7 @@ export default function Attributions() {
   }
 
   if (!offer) {
-    return <Text>Erreur, offre non trouvée</Text>;
+    return <Loading text="Erreur, offre non trouvée" />
   }
 
   return (
