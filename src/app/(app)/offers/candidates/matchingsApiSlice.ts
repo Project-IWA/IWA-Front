@@ -9,13 +9,13 @@ export const matchingsAdapter = createEntityAdapter({
 
 export const initialState = matchingsAdapter.getInitialState();
 
-const matchingMS = "/matching-api/api";
+const matchingMS = "/recrutements-api/api";
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getMatchings: builder.query({
       query: ({ offerId }: { offerId: string }) =>
-        `${matchingMS}/matchings/offre/${offerId}`,
+        `${matchingMS}/matched-candidats/${offerId}`,
       transformResponse: (responseData: any) => {
         return matchingsAdapter.setAll(initialState, responseData);
       },
@@ -24,46 +24,11 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         ...result.ids.map((id: string) => ({ type: "Matching", id })),
       ],
     }),
-    addNewMatching: builder.mutation({
-      query: (initialMatching: Offre) => ({
-        url: `${matchingMS}/matchings`,
-        method: "POST",
-        body: {
-          ...initialMatching,
-        },
-      }),
-      invalidatesTags: [{ type: "Matching", id: "LIST" }],
-    }),
-    updateMatching: builder.mutation({
-      query: (initialMatching: Offre) => ({
-        url: `${matchingMS}/matchings/${initialMatching.idOffre}`,
-        method: "PUT",
-        body: {
-          ...initialMatching,
-        },
-      }),
-      invalidatesTags: (result: any, error: any, arg: any) => [
-        { type: "Matching", id: arg.id },
-      ],
-    }),
-    deleteMatching: builder.mutation({
-      query: ({ matchingId }: { matchingId: string }) => ({
-        url: `${matchingMS}/matchings/${matchingId}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: (result: any, error: any, arg: any) => [
-        { type: "Matching", id: arg.id },
-      ],
-    }),
   }),
 });
 
-export const {
-  useGetMatchingsQuery,
-  useAddNewMatchingMutation,
-  useUpdateMatchingMutation,
-  useDeleteMatchingMutation,
-} = extendedApiSlice;
+export const { useGetMatchingsQuery, useDeleteMatchingMutation } =
+  extendedApiSlice;
 
 export const selectMatchingsResult =
   extendedApiSlice.endpoints.getMatchings.select();

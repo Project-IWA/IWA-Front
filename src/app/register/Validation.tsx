@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import { useState } from "react";
 import { Snackbar } from "react-native-paper";
 import { selectFormuleById } from "../formules/formulesApiSlice";
+import Loading from "../../ui/Loading";
 
 export default function Validation() {
   const registeringUser: Registering = useSelector(
@@ -52,7 +53,7 @@ export default function Validation() {
   }
 
   if (isLoading) {
-    return <Text>Loading enregistrement...</Text>;
+    return <Loading text="Loading register..." />;
   }
 
   return (

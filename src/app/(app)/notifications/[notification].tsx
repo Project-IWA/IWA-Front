@@ -13,6 +13,7 @@ import {
 } from "../../auth/usersApiSlice";
 import { useState } from "react";
 import { Snackbar } from "react-native-paper";
+import Loading from "../../../ui/Loading";
 
 export default function Offer() {
   const { notification: notificationId } = useLocalSearchParams() as {
@@ -26,7 +27,7 @@ export default function Offer() {
   const { isLoading } = useGetUsersQuery();
 
   const user: User | undefined = useSelector((state: RootState) =>
-    selectUserById(state, notification?.idUser)
+    selectUserById(state, notification.idUser.idUser)
   ) as User;
 
   const [updateNotification] = useUpdateNotificationMutation();
@@ -59,7 +60,7 @@ export default function Offer() {
   }
 
   if (isLoading) {
-    return <Text>Loading notif...</Text>;
+    return <Loading text="Loading notification" />;
   }
 
   if (!notification || !user) {

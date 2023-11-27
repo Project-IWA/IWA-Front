@@ -3,6 +3,7 @@ import { selectAllOffers, useGetOffersQuery } from "./offersApiSlice";
 import { RootState } from "../../store";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
+import Loading from "../../../ui/Loading";
 
 export default function Offers() {
   const { isLoading } = useGetOffersQuery();
@@ -12,7 +13,7 @@ export default function Offers() {
   );
 
   if (isLoading) {
-    return <Text>Loading offers...</Text>;
+    return <Loading text="Loading offers..." />;
   }
 
   return (
@@ -28,7 +29,11 @@ export default function Offers() {
             onPress={() => router.push(`/offers/${item.idOffre}`)}
           >
             <Text className="text-xl font-semibold mb-2">{item.emploi}</Text>
-            {/* ajouter les dates */}
+            <Text className="text-xl font-semibold mb-2">{`${item.dateDebut
+              .toISOString()
+              .slice(0, 10)} - ${item.dateFin
+              .toISOString()
+              .slice(0, 10)}`}</Text>
             <Text className="text-blue-600 font-bold text-lg mb-2">
               {item.salaire} €
             </Text>

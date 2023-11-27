@@ -12,6 +12,7 @@ import {
   useGetFormulesQuery,
 } from "../formules/formulesApiSlice";
 import { RootState } from "../store";
+import Loading from "../../ui/Loading";
 
 export default function Formule() {
   const { formule }: Registering = useSelector(selectCurrentRegisteringUser);
@@ -27,7 +28,7 @@ export default function Formule() {
   const canSave = [formule].every(Boolean);
 
   if (isLoading) {
-    return <Text>Loading formules...</Text>;
+    return <Loading text="Loading formules..." />;
   }
 
   return (

@@ -22,6 +22,7 @@ export const apiSlice: any = createApi({
     "Formule",
     "Notification",
     "Matching",
+    "TypeEmploi",
   ],
   endpoints: (builder) => ({}),
 });

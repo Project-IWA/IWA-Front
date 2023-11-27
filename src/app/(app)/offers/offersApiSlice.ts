@@ -16,7 +16,12 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     getOffers: builder.query({
       query: () => `${recrutementsMS}/offres`,
       transformResponse: (responseData: any) => {
-        return offersAdapter.setAll(initialState, responseData);
+        const offersWithDates = responseData.map((offer: Offre) => ({
+          ...offer,
+          dateDebut: new Date(offer.dateDebut),
+          dateFin: new Date(offer.dateFin),
+        }));
+        return offersAdapter.setAll(initialState, offersWithDates);
       },
       providesTags: (result: any, error: any, arg: any) => [
         { type: "Offer", id: "LIST" },

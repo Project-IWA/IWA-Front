@@ -7,6 +7,7 @@ import { Button as Btn } from "native-base";
 import { Portal, Dialog, Button, Snackbar } from "react-native-paper";
 import { useState } from "react";
 import { useAddNewAttributionMutation } from "../attributions/attributionsApiSlice";
+import Loading from "../../../../ui/Loading";
 
 export default function Matchings() {
   const { offerId } = useLocalSearchParams() as { offerId: string };
@@ -34,7 +35,7 @@ export default function Matchings() {
   }
 
   if (isLoading) {
-    return <Text>Erreur, candidats non trouvée</Text>;
+    return <Loading text="Loading candidats" />;
   }
 
   return (

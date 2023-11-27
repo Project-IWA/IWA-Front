@@ -24,7 +24,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     addNewEtablissement: builder.mutation({
-      query: (initialEtablissement: Etablissement) => ({
+      query: (initialEtablissement: AddEtablissement) => ({
         url: `${usersMS}/etablissements`,
         method: "POST",
         body: {

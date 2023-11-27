@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { selectNotifsByUser, useGetNotificationsQuery } from "./notificationsApiSlice";
+import {
+  selectNotifsByUser,
+  useGetNotificationsQuery,
+} from "./notificationsApiSlice";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
+import Loading from "../../../ui/Loading";
 
 export default function Notifications() {
-
   const { isLoading } = useGetNotificationsQuery();
 
   const notifications = useSelector((state: RootState) =>
@@ -13,7 +16,7 @@ export default function Notifications() {
   );
 
   if (isLoading) {
-    return <Text>Loading notifications...</Text>;
+    return <Loading text="Loading notifications..." />;
   }
 
   return (
@@ -25,8 +28,9 @@ export default function Notifications() {
         keyExtractor={(item: Notif) => item.idNotification as string}
         renderItem={({ item }) => (
           <TouchableOpacity
-            className={`p-4 rounded-lg shadow-md mx-4 my-2 ${item.etat === "Validée" ? "bg-gray-500" : "bg-gray-200"
-              }`}
+            className={`p-4 rounded-lg shadow-md mx-4 my-2 ${
+              item.etat === "Validée" ? "bg-gray-500" : "bg-gray-200"
+            }`}
             onPress={() => router.push(`/notifications/${item.idNotification}`)}
           >
             <Text className="text-xl font-semibold">{`${item.type}`}</Text>

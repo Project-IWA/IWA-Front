@@ -11,6 +11,7 @@ import { faAdd, faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import NotificationBadge from "./NotificationBadge";
 import { Portal, Dialog, Button, Icon } from "react-native-paper";
 import { removeToken } from "../../utils/token";
+import Loading from "../../ui/Loading";
 
 export default function AppLayout() {
   const { data: fetchData, isLoading } = useAuthQuery();
@@ -29,12 +30,12 @@ export default function AppLayout() {
     console.log("fetchData2", fetchData);
     if (fetchData) {
       console.log("fetchData3", fetchData);
-      dispatch(setUser(fetchData));
+      dispatch(setUser({ user: fetchData }));
     }
   }, [fetchData]);
 
   if (isLoading) {
-    return <Text>Loading layout...</Text>;
+    return <Loading text="Loading offres..." />;
   }
 
   if (!user) {
