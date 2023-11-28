@@ -123,7 +123,7 @@ export default function NewOffer() {
         ))}
       </Select>
       <TouchableOpacity
-        className="bg-blue-300 py-3 px-6 rounded-lg items-center mb-2"
+        className="bg-blue-500 py-3 px-6 rounded-lg items-center mb-2"
         onPress={() => setDialogEtablissement("")}
       >
         <Text className="text-white font-bold text-lg">
@@ -217,8 +217,9 @@ export default function NewOffer() {
         className="bg-white border rounded-md px-4 py-2 mb-4 w-full"
       />
       <TouchableOpacity
-        className={`${canSave ? "bg-blue-500" : "bg-gray-400"
-          } py-3 px-6 rounded-lg items-center`}
+        className={`${
+          canSave ? "bg-blue-500" : "bg-gray-400"
+        } py-3 px-6 rounded-lg items-center`}
         onPress={handleAddOffer}
         disabled={!canSave}
       >

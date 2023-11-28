@@ -45,24 +45,16 @@ export default function Profile() {
           <Text>{user.email}</Text>
         </View>
         <Text className="text-gray-700">{user.tel}</Text>
-        <Text className="text-gray-700">
-          {user.numRue} {user.rue}, {user.codePostal} {user.ville}, {user.pays}
-        </Text>
-      </View>
-      <View className="mb-4">
-        <Text className="font-semibold text-gray-800">
-          SIRET: {user.numeroSiret}
-        </Text>
       </View>
       <View className="mb-4">
         <Text className="font-semibold text-blue-500">
           Formule: {user.formule?.typeFormule}
         </Text>
         <Text className="font-semibold text-blue-500">
-          Début: {/* date */}
+          Début: {user.dateDebutSouscription?.slice(0, 10)}
         </Text>
         <Text className="font-semibold text-blue-500">
-          Fin: {/* date */}
+          Fin: {user.dateFinSouscription?.slice(0, 10)}
         </Text>
       </View>
       {user.etablissementPrincipal && (

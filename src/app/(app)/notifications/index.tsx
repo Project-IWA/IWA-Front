@@ -33,7 +33,7 @@ export default function Notifications() {
             }`}
             onPress={() => router.push(`/notifications/${item.idNotification}`)}
           >
-            <Text className="text-xl font-semibold">{`${item.type}`}</Text>
+            <Text className="text-xl font-semibold">{`${item.type} de compte`}</Text>
           </TouchableOpacity>
         )}
       />

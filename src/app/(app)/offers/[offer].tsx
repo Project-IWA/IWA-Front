@@ -30,19 +30,23 @@ export default function Offer() {
 
   return (
     <ScrollView>
-      <View className="p-6 m-4 bg-gray-200 rounded-lg shadow-black flex flex-col mt-16 overflow-auto">
+      <View className="p-6 m-4 bg-gray-200 rounded-lg shadow-black flex flex-col mt-16 flex-wrap">
         <Text className="text-3xl font-bold mb-4">{offer.emploi}</Text>
         <View className="flex flex-row mb-2">
           <Text className="text-lg font-semibold text-gray-600 mr-2">
             Date de début:
           </Text>
-          <Text className="text-lg text-gray-900">{/* date */}</Text>
+          <Text className="text-lg text-gray-900">
+            {offer.dateDebut.slice(0, 10)}
+          </Text>
         </View>
         <View className="flex flex-row mb-2">
           <Text className="text-lg font-semibold text-gray-600 mr-2">
             Date de fin:
           </Text>
-          <Text className="text-lg text-gray-900">{/* date */}</Text>
+          <Text className="text-lg text-gray-900">
+            {offer.dateFin.slice(0, 10)}
+          </Text>
         </View>
         <View className="flex flex-row mb-2">
           <Text className="text-lg font-semibold text-gray-600 mr-2">
@@ -50,7 +54,7 @@ export default function Offer() {
           </Text>
           <Text className="text-lg text-gray-900">{offer.salaire} €</Text>
         </View>
-        <View className="flex flex-row mb-2">
+        <View className="mb-2">
           <Text className="text-lg font-semibold text-gray-600 mr-2">
             Avantages:
           </Text>

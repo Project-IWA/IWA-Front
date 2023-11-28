@@ -73,14 +73,19 @@ export default function Offer() {
   return (
     <View className="p-6 m-4 bg-gray-200 rounded-lg shadow-black flex flex-col mt-8">
       <Text className="text-3xl font-bold mb-4">
-        {`${notification.type} de ${user.username}`}
+        {`${notification.type} de ${user.username} ${user.email} ${user.prenom} ${user.nom}`}
       </Text>
       <View className="flex flex-row mb-2">
         <Text className="text-lg font-semibold text-gray-600 mr-2">Etat :</Text>
-        <Text className="text-lg text-gray-900">{notification.etat}</Text>
+        <Text className="text-lg text-gray-900">
+          {notification.etat || "En attente"}
+        </Text>
       </View>
-      <TouchableOpacity onPress={handleUpdateNotification}>
-        <Text>Valider la demande</Text>
+      <TouchableOpacity
+        className="py-3 px-6 rounded-lg items-center bg-blue-500"
+        onPress={handleUpdateNotification}
+      >
+        <Text className="text-white font-bold text-lg">Valider la demande</Text>
       </TouchableOpacity>
       <Snackbar
         visible={snackbar !== null}

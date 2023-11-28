@@ -42,7 +42,7 @@ export default function Matchings() {
   }
 
   return (
-    <View className="flex-1 items-center justify-center mt-12">
+    <View className="flex-1 items-center justify-center mt-12 flex-wrap p-2">
       <Text className="text-2xl font-bold mb-4">
         Candidats pour cette offre
       </Text>

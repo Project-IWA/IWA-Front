@@ -40,7 +40,7 @@ export default function Connect() {
     }
   }
 
-  const canSave = [username, password].every(Boolean);
+  const canSave = [username, password].every(Boolean) && !isLoading;
 
   return (
     <View className="flex-1 items-center justify-center">
@@ -66,8 +66,9 @@ export default function Connect() {
         <ActivityIndicator size="large" color="blue" className="mt-4" />
       ) : (
         <TouchableOpacity
-          className={`${canSave ? "bg-blue-500" : "bg-gray-400"
-            } py-3 px-6 rounded-lg mt-4`}
+          className={`${
+            canSave ? "bg-blue-500" : "bg-gray-400"
+          } py-3 px-6 rounded-lg mt-4`}
           onPress={onLogin}
           disabled={!canSave}
         >

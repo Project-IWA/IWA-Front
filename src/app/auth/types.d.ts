@@ -17,8 +17,8 @@ type User = {
   docJustificatif?: string;
   etat: string;
   formule?: Formule;
-  dateDebutSouscription?: Date;
-  dateFinSouscription?: Date;
+  dateDebutSouscription?: string;
+  dateFinSouscription?: string;
   etablissementPrincipal?: Etablissement;
   etablissements: Etablissement[];
 };
