@@ -7,28 +7,14 @@ export const etablissementsAdapter = createEntityAdapter({
   sortComparer: false,
 });
 
-export const initialState = etablissementsAdapter.setAll(
-  etablissementsAdapter.getInitialState(),
-  [
-    {
-      idEtablissement: "1",
-      nom: "Polytech Montpellier",
-    },
-    {
-      idEtablissement: "2",
-      nom: "Polytech Tours",
-    },
-    {
-      idEtablissement: "3",
-      nom: "Polytech Dijon",
-    },
-  ]
-);
+export const initialState = etablissementsAdapter.getInitialState();
+
+const usersMS = "/users-api/api";
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getEtablissements: builder.query({
-      query: () => `/etablissements`,
+      query: () => `${usersMS}/etablissements`,
       transformResponse: (responseData: any) => {
         return etablissementsAdapter.setAll(initialState, responseData);
       },
@@ -38,8 +24,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     addNewEtablissement: builder.mutation({
-      query: (initialEtablissement: Etablissement) => ({
-        url: "/etablissements",
+      query: (initialEtablissement: AddEtablissement) => ({
+        url: `${usersMS}/etablissements`,
         method: "POST",
         body: {
           ...initialEtablissement,
@@ -49,7 +35,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     updateEtablissement: builder.mutation({
       query: (initialEtablissement: Etablissement) => ({
-        url: `/etablissements/${initialEtablissement.idEtablissement}`,
+        url: `${usersMS}/etablissements/${initialEtablissement.idEtablissement}`,
         method: "PUT",
         body: {
           ...initialEtablissement,
@@ -61,7 +47,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteEtablissement: builder.mutation({
       query: ({ etablissementId }: { etablissementId: string }) => ({
-        url: `/etablissements/${etablissementId}`,
+        url: `${usersMS}/etablissements/${etablissementId}`,
         method: "DELETE",
         body: { etablissementId },
       }),

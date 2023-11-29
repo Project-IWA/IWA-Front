@@ -1,5 +1,5 @@
 type User = {
-  idUser?: string;
+  idUser: string;
   prenom: string;
   nom: string;
   username: string;
@@ -17,20 +17,15 @@ type User = {
   docJustificatif?: string;
   etat: string;
   formule?: Formule;
-  dateDebutSouscription?: Date;
-  dateFinSouscription?: Date;
+  dateDebutSouscription?: string;
+  dateFinSouscription?: string;
   etablissementPrincipal?: Etablissement;
   etablissements: Etablissement[];
 };
 
-type Etablissement = {
-  idEtablissement?: string;
+type UpdateUser = {
+  idUser: string;
+  prenom: string;
   nom: string;
+  tel: string;
 };
-
-type Formule = {
-  idFormule?: string;
-  typeFormule: string;
-};
-
-// Free | Silver | Gold | Platinum

@@ -5,18 +5,17 @@ import {
   setCurrentPage,
   setNom,
   setPrenom,
-  setTel,
 } from "./registerSlice";
 import { useDispatch } from "react-redux";
 
 export default function PersonalInfos() {
-  const { nom, prenom, tel }: Registering = useSelector(
+  const { nom, prenom }: Registering = useSelector(
     selectCurrentRegisteringUser
   );
 
   const dispatch = useDispatch();
 
-  const canSave = [nom, prenom, tel].every(Boolean) && /^\d{10}$/.test(tel);
+  const canSave = [nom, prenom].every(Boolean);
 
   return (
     <View className="flex-1 items-center justify-center">
@@ -32,13 +31,6 @@ export default function PersonalInfos() {
         value={nom}
         onChangeText={(text) => dispatch(setNom(text))}
         placeholder="Nom"
-        autoCapitalize="none"
-        className="bg-white border rounded-md px-4 py-2 mb-4 w-80"
-      />
-      <TextInput
-        value={tel}
-        onChangeText={(text) => dispatch(setTel(text))}
-        placeholder="Téléphone"
         autoCapitalize="none"
         className="bg-white border rounded-md px-4 py-2 mb-4 w-80"
       />

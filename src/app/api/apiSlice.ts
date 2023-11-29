@@ -2,11 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getToken } from "../../utils/token";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000",
+  baseUrl: "http://192.168.43.8:8080",
   prepareHeaders: async (headers: any) => {
     const token = await getToken();
     if (token) {
-      headers.set("token", token);
+      headers.set("Authorization", token);
     }
     headers.set("Content-Type", "application/json");
     return headers;
@@ -18,10 +18,11 @@ export const apiSlice: any = createApi({
   tagTypes: [
     "User",
     "Offer",
-    "Establissement",
+    "Etablissement",
     "Formule",
     "Notification",
     "Matching",
+    "TypeEmploi",
   ],
   endpoints: (builder) => ({}),
 });

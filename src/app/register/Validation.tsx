@@ -7,39 +7,53 @@ import { setUser } from "../auth/authSlice";
 import { router } from "expo-router";
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { RootState } from "../store";
-import { selectEtablissementById } from "../etablissements/etablissementApiSlice";
+import { useState } from "react";
+import { Snackbar } from "react-native-paper";
+import { selectFormuleById } from "../formules/formulesApiSlice";
+import Loading from "../../ui/Loading";
 
 export default function Validation() {
   const registeringUser: Registering = useSelector(
     selectCurrentRegisteringUser
   );
 
-  const { username, nom, prenom, tel, etablissement } = registeringUser;
+  const { username, nom, prenom, formule, password, dateDebut, dateFin } =
+    registeringUser;
 
-  const etab: Etablissement | undefined = useSelector((state: RootState) =>
-    selectEtablissementById(state, etablissement.idEtablissement!)
+  const form: Formule | undefined = useSelector((state: RootState) =>
+    selectFormuleById(state, formule!)
   );
 
   const dispatch = useDispatch();
 
   const [addNewUser, { isLoading }] = useAddNewUserMutation();
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function onRegister() {
     try {
       const logResult = await addNewUser({
-        ...registeringUser,
+        username,
+        password,
+        idFormule: formule,
+        dateDebutSouscription: dateDebut,
+        dateFinSouscription: dateFin,
+        prenom,
+        nom,
       }).unwrap();
-      const { user, token } = logResult;
-      setToken(token);
+      const { user, accessToken, tokenType } = logResult;
+      await setToken(`${tokenType} ${accessToken}`);
       dispatch(setUser({ user }));
-      router.push("/home");
+      setSnackbar("Enregistrement réussi !");
+      router.push("/");
     } catch (err: any) {
       console.error("Error", err.message);
+      setSnackbar("Erreur, enregistrement échoué !");
     }
   }
 
   if (isLoading) {
-    return <Text>Loading enregistrement...</Text>;
+    return <Loading text="Loading register..." />;
   }
 
   return (
@@ -48,19 +62,17 @@ export default function Validation() {
       <View className="bg-gray-100 rounded-lg p-4 mb-4 w-80">
         <Text className="text-lg font-semibold mb-2">Nom d'utilisateur: </Text>
         <Text>{username}</Text>
-        <Text className="text-lg font-semibold mb-2 mt-2">Téléphone: </Text>
-        <Text>{tel}</Text>
         <Text className="text-lg font-semibold mb-2 mt-2">Nom: </Text>
         <Text>{nom}</Text>
         <Text className="text-lg font-semibold mb-2 mt-2">Prénom: </Text>
         <Text>{prenom}</Text>
-        <Text className="text-lg font-semibold mb-2 mt-2">Etablissement: </Text>
-        <Text>{etab ? etab.nom : etablissement.nom}</Text>
+        <Text className="text-lg font-semibold mb-2 mt-2">Formule: </Text>
+        <Text>{form?.typeFormule}</Text>
       </View>
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" className="mt-4" />
       ) : (
-        <View className="items-center justify-center gap-4 mt-4 flex-row">
+        <View className="items-center justify-center gap-4 mt-4 flex-row mx-2">
           <TouchableOpacity
             className="bg-black py-3 px-6 rounded-lg flex-1"
             onPress={() => dispatch(setCurrentPage(2))}
@@ -71,7 +83,10 @@ export default function Validation() {
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-blue-500 py-3 px-6 rounded-lg flex-1"
-            onPress={onRegister}
+            onPress={() => {
+              console.log("TAMERE");
+              onRegister();
+            }}
           >
             <Text className="text-white font-bold text-lg text-center">
               Terminer
@@ -79,6 +94,13 @@ export default function Validation() {
           </TouchableOpacity>
         </View>
       )}
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </View>
   );
 }

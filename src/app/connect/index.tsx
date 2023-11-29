@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";
 import { Link, router } from "expo-router";
 import { setToken } from "../../utils/token";
+import { Snackbar } from "react-native-paper";
 
 export default function Connect() {
   const [username, setUsername] = useState<string>("");
@@ -20,22 +21,26 @@ export default function Connect() {
 
   const [login, { isLoading }] = useLoginMutation();
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function onLogin() {
     try {
       const logResult = await login({
         username,
         password,
       }).unwrap();
-      const { user, token } = logResult;
-      setToken(token);
+      const { user, accessToken, tokenType } = logResult;
+      await setToken(`${tokenType} ${accessToken}`);
       dispatch(setUser({ user }));
-      router.push("/home");
+      setSnackbar("Connexion réussie !");
+      router.push("/");
     } catch (err: any) {
       console.error("Error", err.message);
+      setSnackbar("Erreur, connexion échouée");
     }
   }
 
-  const canSave = [username, password].every(Boolean);
+  const canSave = [username, password].every(Boolean) && !isLoading;
 
   return (
     <View className="flex-1 items-center justify-center">
@@ -70,6 +75,13 @@ export default function Connect() {
           <Text className="text-white font-bold text-lg">Connexion</Text>
         </TouchableOpacity>
       )}
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </View>
   );
 }

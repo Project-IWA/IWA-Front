@@ -18,12 +18,13 @@ export default function Profile() {
 
   async function handleSendNotif() {
     try {
+      setDialog(false);
       await addNewNotif({
         idUser: user?.idUser,
         etat: "En attente",
         date: new Date(),
         type: "Suppression",
-      }).unwrap();
+      } as AddNotif).unwrap();
       setSnackbar("Demande de suppression envoyée !");
     } catch (err: any) {
       console.error(err.message);
@@ -39,31 +40,27 @@ export default function Profile() {
         </Text>
         <Text className="text-3xl font-bold mb-4">{user.role}</Text>
       </View>
-      <View className="mb-4">
+      {user.role !== "Admin" && (
         <View className="mb-4">
-          <Text>{user.email}</Text>
+          <View className="mb-4">
+            <Text>{user.email}</Text>
+          </View>
+          <Text className="text-gray-700">{user.tel}</Text>
         </View>
-        <Text className="text-gray-700">{user.tel}</Text>
-        <Text className="text-gray-700">
-          {user.numRue} {user.rue}, {user.codePostal} {user.ville}, {user.pays}
-        </Text>
-      </View>
-      <View className="mb-4">
-        <Text className="font-semibold text-gray-800">
-          SIRET: {user.numeroSiret}
-        </Text>
-      </View>
-      <View className="mb-4">
-        <Text className="font-semibold text-blue-500">
-          Formule: {user.formule?.typeFormule}
-        </Text>
-        <Text className="font-semibold text-blue-500">
-          Début: {user.dateDebutSouscription?.toISOString().slice(0, 10)}
-        </Text>
-        <Text className="font-semibold text-blue-500">
-          Fin: {user.dateFinSouscription?.toISOString().slice(0, 10)}
-        </Text>
-      </View>
+      )}
+      {user.role !== "Admin" && (
+        <View className="mb-4">
+          <Text className="font-semibold text-blue-500">
+            Formule: {user.formule?.typeFormule}
+          </Text>
+          <Text className="font-semibold text-blue-500">
+            Début: {user.dateDebutSouscription?.slice(0, 10)}
+          </Text>
+          <Text className="font-semibold text-blue-500">
+            Fin: {user.dateFinSouscription?.slice(0, 10)}
+          </Text>
+        </View>
+      )}
       {user.etablissementPrincipal && (
         <View className="mb-4">
           <Text className="font-semibold text-blue-500">
@@ -71,20 +68,22 @@ export default function Profile() {
           </Text>
         </View>
       )}
+      {user.role !== "Admin" && (
+        <Btn
+          onPress={() => setDialog(true)}
+          className="py-3 mt-2 px-6 rounded-lg bg-blue-500"
+        >
+          <Text className="text-white text-center font-bold text-lg">
+            Supprimer le compte
+          </Text>
+        </Btn>
+      )}
       <Link
-        className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg"
+        className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg mt-2"
         href="/profile/update"
       >
         Modifier le profil
       </Link>
-      <Btn
-        onPress={() => setDialog(true)}
-        className="py-3 mt-2 px-6 rounded-lg bg-blue-500"
-      >
-        <Text className="text-white text-center font-bold text-lg">
-          Supprimer le compte
-        </Text>
-      </Btn>
       <Snackbar
         visible={snackbar !== null}
         onDismiss={() => setSnackbar(null)}

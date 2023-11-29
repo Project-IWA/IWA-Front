@@ -7,55 +7,14 @@ export const offersAdapter = createEntityAdapter({
   sortComparer: false,
 });
 
-export const initialState = offersAdapter.setAll(
-  offersAdapter.getInitialState(),
-  [
-    {
-      idOffre: "1",
-      emploi: "Développeur Front-end",
-      dateDebut: new Date("2023-10-01"),
-      dateFin: new Date("2023-12-31"),
-      salaire: 55000,
-      avantages: "Assurance santé, Télétravail",
-      etat: "Ouverte",
-      nombreCandidats: 15,
-      idUser: "1",
-      idEtablissement: "1",
-      description: "Description de l'offre 1",
-      attributions: [
-        {
-          idOffre: "1",
-          emailCandidat: "j@gmail.com",
-          etat: "En cours",
-        },
-        {
-          idOffre: "1",
-          emailCandidat: "m@gmail.com",
-          etat: "Terminée",
-        },
-      ],
-    },
-    {
-      idOffre: "2",
-      emploi: "Développeur Front-end",
-      dateDebut: new Date("2023-10-01"),
-      dateFin: new Date("2023-12-31"),
-      salaire: 55000,
-      avantages: "Assurance santé, Télétravail",
-      etat: "Ouverte",
-      nombreCandidats: 15,
-      idUser: "1",
-      idEtablissement: "1",
-      description: "Description de l'offre 1",
-      attributions: [],
-    },
-  ]
-);
+export const initialState = offersAdapter.getInitialState();
+
+const recrutementsMS = "/recrutements-api/api";
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getOffers: builder.query({
-      query: () => `/offres`,
+      query: () => `${recrutementsMS}/offres/user`,
       transformResponse: (responseData: any) => {
         return offersAdapter.setAll(initialState, responseData);
       },
@@ -65,8 +24,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     addNewOffer: builder.mutation({
-      query: (initialOffer: Offre) => ({
-        url: "/offres",
+      query: (initialOffer: AddOffre) => ({
+        url: `${recrutementsMS}/offres`,
         method: "POST",
         body: {
           ...initialOffer,
@@ -75,8 +34,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: "Offer", id: "LIST" }],
     }),
     updateOffer: builder.mutation({
-      query: (initialOffer: Offre) => ({
-        url: `/offres/${initialOffer.idOffre}`,
+      query: (initialOffer: AddOffre) => ({
+        url: `${recrutementsMS}/offres/${initialOffer.idOffre}`,
         method: "PUT",
         body: {
           ...initialOffer,
@@ -88,20 +47,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteOffer: builder.mutation({
       query: ({ offerId }: { offerId: string }) => ({
-        url: `/offres/${offerId}`,
+        url: `${recrutementsMS}/offres/${offerId}`,
         method: "DELETE",
-      }),
-      invalidatesTags: (result: any, error: any, arg: any) => [
-        { type: "Offer", id: arg.id },
-      ],
-    }),
-    updateAttribution: builder.mutation({
-      query: (initialAttribution: Attribution) => ({
-        url: `/offres/attributions/${initialAttribution.idAttribution}`,
-        method: "PUT",
-        body: {
-          ...initialAttribution,
-        },
       }),
       invalidatesTags: (result: any, error: any, arg: any) => [
         { type: "Offer", id: arg.id },
@@ -115,7 +62,6 @@ export const {
   useAddNewOfferMutation,
   useUpdateOfferMutation,
   useDeleteOfferMutation,
-  useUpdateAttributionMutation,
 } = extendedApiSlice;
 
 export const selectOffersResult = extendedApiSlice.endpoints.getOffers.select();

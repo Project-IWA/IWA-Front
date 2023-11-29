@@ -1,34 +1,35 @@
 import { FlatList, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import {
-  selectAllMatchings,
-  useGetMatchingsQuery,
-  useUpdateMatchingMutation,
-} from "./matchingsApiSlice";
+import { selectAllMatchings, useGetMatchingsQuery } from "./matchingsApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Button as Btn } from "native-base";
 import { Portal, Dialog, Button, Snackbar } from "react-native-paper";
 import { useState } from "react";
+import { useAddNewAttributionMutation } from "../attributions/attributionsApiSlice";
+import Loading from "../../../../ui/Loading";
+import { useGetOffersQuery } from "../offersApiSlice";
 
 export default function Matchings() {
-  const { offerId } = useLocalSearchParams() as { offerId: string };
+  const { offer: offerId } = useLocalSearchParams() as { offer: string };
 
-  //const { isLoading } = useGetMatchingsQuery({ offerId });
+  const { isLoading: loadingOffre } = useGetOffersQuery();
 
-  const matchings: Matching[] = useSelector((state: RootState) =>
-    selectAllMatchings(state)
+  const { isLoading: loadingMatchings } = useGetMatchingsQuery({ offerId });
+
+  const matchings: Candidat[] = useSelector((state: RootState) =>
+    selectAllMatchings(state, offerId)
   );
 
-  const [dialogAccept, setDialogAccept] = useState<Matching | null>(null);
+  const [dialogAccept, setDialogAccept] = useState<AddAttribution | null>(null);
 
   const [snackbar, setSnackbar] = useState<string | null>(null);
 
-  const [updateMatching] = useUpdateMatchingMutation();
+  const [addNewAttribution] = useAddNewAttributionMutation();
 
-  async function handleUpdateMatching() {
+  async function handleAddNewAttribution() {
     try {
-      await updateMatching(dialogAccept as Matching).unwrap();
+      await addNewAttribution(dialogAccept).unwrap();
       setSnackbar("Candidat accepté !");
     } catch (err: any) {
       console.error(err.message);
@@ -36,26 +37,32 @@ export default function Matchings() {
     }
   }
 
-  /*
-  if (isLoading) {
-    return <Text>Erreur, candidats non trouvée</Text>;
+  if (loadingOffre || loadingMatchings) {
+    return <Loading text="Loading candidats" />;
   }
-  */
 
   return (
     <View className="flex-1 items-center justify-center mt-12">
       <Text className="text-2xl font-bold mb-4">
         Candidats pour cette offre
       </Text>
-      <FlatList<Matching>
+      <FlatList<Candidat>
         className="w-full"
         data={matchings}
-        keyExtractor={(item: Matching) => item.emailCandidat}
+        keyExtractor={(item: Candidat) => item.email}
         renderItem={({ item }) => (
           <View className="p-2 m-2 bg-gray-200 rounded-lg shadow-black flex flex-col">
-            <Text className="text-xl font-bold">{item.emailCandidat}</Text>
+            <Text className="text-xl font-bold">{item.email}</Text>
+            <Text>{item.firstName} {item.lastName}</Text>
+            <Text>{item.shortBio}</Text>
             <Btn
-              onPress={() => setDialogAccept(item)}
+              onPress={() =>
+                setDialogAccept({
+                  etat: "En cours",
+                  idOffre: offerId,
+                  emailCandidat: item.email,
+                })
+              }
               className="py-3 mt-2 px-6 rounded-lg bg-blue-500"
             >
               <Text className="text-white text-center font-bold text-lg">
@@ -89,7 +96,7 @@ export default function Matchings() {
             <Button
               mode="contained"
               className="w-16 rounded-lg"
-              onPress={handleUpdateMatching}
+              onPress={handleAddNewAttribution}
             >
               Oui
             </Button>

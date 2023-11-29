@@ -1,8 +1,9 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
   selectNotificationById,
+  useGetNotificationsQuery,
   useUpdateNotificationMutation,
 } from "./notificationsApiSlice";
 import { View, Text, TouchableOpacity } from "react-native";
@@ -11,30 +12,39 @@ import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from "../../auth/usersApiSlice";
+import { useState } from "react";
+import { Snackbar } from "react-native-paper";
+import Loading from "../../../ui/Loading";
 
 export default function Offer() {
   const { notification: notificationId } = useLocalSearchParams() as {
     notification: string;
   };
 
+  const { isLoading: loadingNotif } = useGetNotificationsQuery();
+
   const notification: Notif | undefined = useSelector((state: RootState) =>
     selectNotificationById(state, notificationId)
   ) as Notif;
 
-  const { isLoading } = useGetUsersQuery();
+  const { isLoading: loadingUsers } = useGetUsersQuery();
 
   const user: User | undefined = useSelector((state: RootState) =>
-    selectUserById(state, notification?.idUser)
+    selectUserById(state, notification.idUser)
   ) as User;
 
   const [updateNotification] = useUpdateNotificationMutation();
   const [deleteUser] = useDeleteUserMutation();
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function handleDeleteUser() {
     try {
-      await deleteUser({ idUser: notification?.idUser }).unwrap();
+      await deleteUser({ userId: notification?.idUser }).unwrap();
+      setSnackbar("Utilisateur supprimé !");
     } catch (err: any) {
       console.error(err.message);
+      setSnackbar("Erreur, utilisateur non supprimé");
     }
   }
 
@@ -45,17 +55,20 @@ export default function Offer() {
         ...notification,
         etat: "Validée",
       });
+      setSnackbar("Notification mise à jour !");
+      router.push("/notifications");
     } catch (err: any) {
       console.error("Erreur", err.message);
+      setSnackbar("Erreur, notification non mise à jour");
     }
   }
 
-  if (isLoading) {
-    return <Text>Loading notif...</Text>;
+  if (loadingUsers || loadingNotif) {
+    return <Loading text="Loading notification" />;
   }
 
   if (!notification || !user) {
-    return <Text>Erreur, notification non trouvée</Text>;
+    return <Loading text="Erreur, notification non trouvée" />;
   }
 
   return (
@@ -65,11 +78,23 @@ export default function Offer() {
       </Text>
       <View className="flex flex-row mb-2">
         <Text className="text-lg font-semibold text-gray-600 mr-2">Etat :</Text>
-        <Text className="text-lg text-gray-900">{notification.etat}</Text>
+        <Text className="text-lg text-gray-900">
+          {notification.etat || "En attente"}
+        </Text>
       </View>
-      <TouchableOpacity onPress={handleUpdateNotification}>
-        Valider la demande
+      <TouchableOpacity
+        className="py-3 px-6 rounded-lg items-center bg-blue-500"
+        onPress={handleUpdateNotification}
+      >
+        <Text className="text-white font-bold text-lg">Valider la demande</Text>
       </TouchableOpacity>
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </View>
   );
 }

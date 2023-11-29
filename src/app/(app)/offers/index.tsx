@@ -3,19 +3,18 @@ import { selectAllOffers, useGetOffersQuery } from "./offersApiSlice";
 import { RootState } from "../../store";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
+import Loading from "../../../ui/Loading";
 
 export default function Offers() {
-  //const { isLoading } = useGetOffersQuery();
+  const { isLoading } = useGetOffersQuery();
 
   const offres: Offre[] = useSelector((state: RootState) =>
     selectAllOffers(state)
   );
 
-  /*
   if (isLoading) {
-    return <Text>Loading offers...</Text>;
+    return <Loading text="Loading offers..." />;
   }
-  */
 
   return (
     <View className="flex-1 items-center justify-center mt-12">
@@ -30,11 +29,7 @@ export default function Offers() {
             onPress={() => router.push(`/offers/${item.idOffre}`)}
           >
             <Text className="text-xl font-semibold mb-2">{item.emploi}</Text>
-            <Text className="text-gray-500 mb-2">
-              {`${item.dateDebut.toISOString().slice(0, 10)} - ${item.dateFin
-                .toISOString()
-                .slice(0, 10)}`}
-            </Text>
+            <Text className="text-xl font-semibold mb-2">{`${item.dateDebut.slice(0, 10)} à ${item.dateFin.slice(0, 10)}`}</Text>
             <Text className="text-blue-600 font-bold text-lg mb-2">
               {item.salaire} €
             </Text>

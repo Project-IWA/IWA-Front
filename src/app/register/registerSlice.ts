@@ -5,19 +5,21 @@ interface RegisteringState {
   registeringUser: Registering;
 }
 
+const dateDebut = new Date();
+var dateFin = new Date();
+dateFin.setMonth(dateFin.getMonth() + 1);
+
 const initialState: RegisteringState = {
   registeringUser: {
     username: "",
     password: "",
     password2: "",
-    tel: "",
     nom: "",
     prenom: "",
     currentPage: 0,
-    etablissement: {
-      nom: "",
-      idEtablissement: "",
-    },
+    formule: "",
+    dateDebut,
+    dateFin,
   },
 };
 
@@ -45,22 +47,15 @@ const registeringSlice = createSlice({
       const prenom = action.payload;
       state.registeringUser.prenom = prenom;
     },
-    setTel: (state: RegisteringState, action: PayloadAction<string>) => {
-      const tel = action.payload;
-      state.registeringUser.tel = tel;
+    setFormule: (state: RegisteringState, action: PayloadAction<string>) => {
+      const formule = action.payload;
+      state.registeringUser.formule = formule;
     },
     setCurrentPage: (
       state: RegisteringState,
       action: PayloadAction<number>
     ) => {
       state.registeringUser.currentPage = action.payload;
-    },
-    setEtablissement: (
-      state: RegisteringState,
-      action: PayloadAction<Etablissement>
-    ) => {
-      const etablissement = action.payload;
-      state.registeringUser.etablissement = etablissement;
     },
   },
 });
@@ -72,8 +67,7 @@ export const {
   setNom,
   setPrenom,
   setCurrentPage,
-  setTel,
-  setEtablissement,
+  setFormule,
 } = registeringSlice.actions;
 
 export default registeringSlice.reducer;

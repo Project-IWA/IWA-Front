@@ -1,15 +1,18 @@
 import { useLocalSearchParams } from "expo-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { selectOfferById } from "./offersApiSlice";
+import { selectOfferById, useGetOffersQuery } from "./offersApiSlice";
 import { View, Text, ScrollView } from "react-native";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { Button } from "native-base";
 import UpdateOffer from "./UpdateOffer";
+import Loading from "../../../ui/Loading";
 
 export default function Offer() {
   const { offer: offerId } = useLocalSearchParams() as { offer: string };
+
+  const { isLoading } = useGetOffersQuery();
 
   const offer: Offre | undefined = useSelector((state: RootState) =>
     selectOfferById(state, offerId)
@@ -17,8 +20,12 @@ export default function Offer() {
 
   const [update, setUpdate] = useState<boolean>(false);
 
+  if (isLoading) {
+    return <Loading text="Loading offre" />;
+  }
+
   if (!offer) {
-    return <Text>Erreur, offre non trouvée</Text>;
+    return <Loading text="Erreur, offre non trouvée" />;
   }
 
   return (
@@ -30,7 +37,7 @@ export default function Offer() {
             Date de début:
           </Text>
           <Text className="text-lg text-gray-900">
-            {offer.dateDebut.toISOString().slice(0, 10)}
+            {offer.dateDebut.slice(0, 10)}
           </Text>
         </View>
         <View className="flex flex-row mb-2">
@@ -38,7 +45,7 @@ export default function Offer() {
             Date de fin:
           </Text>
           <Text className="text-lg text-gray-900">
-            {offer.dateFin.toISOString().slice(0, 10)}
+            {offer.dateFin.slice(0, 10)}
           </Text>
         </View>
         <View className="flex flex-row mb-2">
@@ -47,7 +54,7 @@ export default function Offer() {
           </Text>
           <Text className="text-lg text-gray-900">{offer.salaire} €</Text>
         </View>
-        <View className="flex flex-row mb-2">
+        <View className="mb-2">
           <Text className="text-lg font-semibold text-gray-600 mr-2">
             Avantages:
           </Text>
@@ -69,7 +76,7 @@ export default function Offer() {
           href={`/offers/candidates/${offerId}`}
           className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg mt-2"
         >
-          Voir le(s) {offer.nombreCandidats} candidat(s) restants
+          Voir le(s) candidat(s)
         </Link>
         {!update ? (
           <Button

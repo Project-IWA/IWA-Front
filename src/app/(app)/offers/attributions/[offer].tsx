@@ -1,57 +1,61 @@
 import { FlatList, Text, TextInput, View } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import {
-  selectOfferById,
-  useUpdateAttributionMutation,
-} from "../offersApiSlice";
+import { router, useLocalSearchParams } from "expo-router";
+import { selectOfferById, useGetOffersQuery } from "../offersApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { Button as Btn } from "native-base";
 import { useState } from "react";
 import { Dialog, Portal, Snackbar, Button } from "react-native-paper";
+import { useUpdateAttributionMutation } from "./attributionsApiSlice";
+import Loading from "../../../../ui/Loading";
 
 export default function Attributions() {
   const { offer: offerId } = useLocalSearchParams() as { offer: string };
+
+  const { isLoading } = useGetOffersQuery();
 
   const offer: Offre | undefined = useSelector((state: RootState) =>
     selectOfferById(state, offerId)
   );
 
-  const [note, setNote] = useState<Attribution | null>(null);
+  const [note, setNote] = useState<UpdateAttribution | null>(null);
 
   const [snackbar, setSnackbar] = useState<string | null>(null);
 
-  const [updateAttribution, { isLoading }] = useUpdateAttributionMutation();
+  const [updateAttribution] = useUpdateAttributionMutation();
 
-  const canSave = [note?.avis, note?.note].every(Boolean) && !isLoading;
-
-  async function addNotation() {
-    try {
-      await updateAttribution({
-        ...note,
-        etat: "Terminée",
-      } as Attribution).unwrap();
-      setSnackbar("Candidat noté !");
-    } catch (err: any) {
-      console.error(err.message);
-      setSnackbar("Erreur, candidat non noté");
-    }
-  }
+  const canSave = [note?.avis, note?.note].every(Boolean);
 
   function changeNote(text: string) {
     if (parseFloat(text) <= 5) {
       setNote({
         ...note,
         note: parseFloat(text) || 0,
-      } as Attribution);
+      } as UpdateAttribution);
     }
     if (text.trim() === "") {
-      setNote({ ...note, note: undefined } as Attribution);
+      setNote({ ...note, note: undefined } as UpdateAttribution);
     }
   }
 
+  async function handleUpdateAttribution() {
+    try {
+      await updateAttribution(note).unwrap();
+      setSnackbar("Candidat noté !")
+      setNote(null);
+      router.push("/offers");
+    } catch (err: any) {
+      console.error(err.message);
+      setSnackbar("Erreur, attribution non notée");
+    }
+  }
+
+  if (isLoading) {
+    return <Loading text="Loading offre" />;
+  }
+
   if (!offer) {
-    return <Text>Erreur, offre non trouvée</Text>;
+    return <Loading text="Erreur, offre non trouvée" />;
   }
 
   return (
@@ -68,11 +72,11 @@ export default function Attributions() {
             <Text className="text-xl font-bold mb-2">{item.emailCandidat}</Text>
             <View className="flex flex-row">
               <Text className="text-lg font-semibold text-gray-600 mr-2">
-                Etat:
+                Bio:
               </Text>
-              <Text className="text-lg text-gray-900">{item.etat}</Text>
+              <Text className="text-lg text-gray-900">{item.candidat.shortBio}</Text>
             </View>
-            {item.note && (
+            {item.note !== undefined || item.note !== null && (
               <View className="flex flex-row mt-2">
                 <Text className="text-lg font-semibold text-gray-600 mr-2">
                   Note:
@@ -80,7 +84,7 @@ export default function Attributions() {
                 <Text className="text-lg text-gray-900">{item.note}</Text>
               </View>
             )}
-            {item.avis && (
+            {item.avis !== undefined && item.avis !== null && (
               <View className="flex flex-row mt-2">
                 <Text className="text-lg font-semibold text-gray-600 mr-2">
                   Avis:
@@ -114,7 +118,7 @@ export default function Attributions() {
               <TextInput
                 value={note?.avis}
                 onChangeText={(text) =>
-                  setNote({ ...note, avis: text } as Attribution)
+                  setNote({ ...note, avis: text } as UpdateAttribution)
                 }
                 className="bg-gray-100 p-2 rounded-md"
               />
@@ -123,7 +127,9 @@ export default function Attributions() {
               <Text className="font-semibold mb-2">Note /5:</Text>
               <TextInput
                 keyboardType="numeric"
-                value={note?.note ? (note as Attribution).note?.toString() : ""}
+                value={
+                  note?.note ? (note as UpdateAttribution).note?.toString() : ""
+                }
                 onChangeText={(text) => changeNote(text)}
                 className="bg-gray-100 p-2 rounded-md"
               />
@@ -137,7 +143,7 @@ export default function Attributions() {
               mode="contained"
               className="w-16 rounded-lg"
               disabled={!canSave}
-              onPress={addNotation}
+              onPress={handleUpdateAttribution}
             >
               Valider
             </Button>

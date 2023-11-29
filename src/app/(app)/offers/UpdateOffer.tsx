@@ -6,25 +6,36 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { useUpdateOfferMutation } from "./offersApiSlice";
 import { router } from "expo-router";
 import { Select, CheckIcon } from "native-base";
+import { Snackbar } from "react-native-paper";
 
 interface UpdateOfferProps {
   offre: Offre;
 }
 
 export default function UpdateOffer({ offre }: UpdateOfferProps) {
-  const [offer, setOffer] = useState<Offre>(offre);
+  const [offer, setOffer] = useState<AddOffre>({
+    ...offre,
+    idTypeEmploi: offre.typeEmploi.idTypeEmploi,
+    dateDebut: new Date(offre.dateDebut),
+    dateFin: new Date(offre.dateFin),
+  });
 
   const [updateOffer] = useUpdateOfferMutation();
 
   const [showDateDebut, setShowDateDebut] = useState<boolean>(false);
   const [showDateFin, setShowDateFin] = useState<boolean>(false);
 
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+
   async function handleUpdateOffer() {
     try {
-      const newOffer: Offre = await updateOffer(offer).unwrap();
-      router.replace(`/offers/${newOffer.idOffre}`);
+      const { idOffre, emploi, description, dateDebut, dateFin, salaire, avantages, etat, nombreCandidats, idEtablissement, idTypeEmploi, idUser } = offer;
+      await updateOffer({ idOffre, emploi, description, dateDebut, dateFin, salaire, avantages, etat, nombreCandidats, idEtablissement, idTypeEmploi, idUser } as AddOffre).unwrap();
+      setSnackbar("Offre mise à jour !")
+      router.push("/offers");
     } catch (err: any) {
       console.error("Erreur", err.message);
+      setSnackbar("Erreur, offre non mise à jour");
     }
   }
 
@@ -73,7 +84,7 @@ export default function UpdateOffer({ offre }: UpdateOfferProps) {
       </View>
       {showDateDebut && (
         <DateTimePicker
-          value={offer.dateDebut}
+          value={new Date(offer.dateDebut)}
           mode="date"
           display="default"
           onChange={(_, date) => {
@@ -126,14 +137,20 @@ export default function UpdateOffer({ offre }: UpdateOfferProps) {
         <Select.Item label="Archivée" value="Archivée" />
       </Select>
       <TouchableOpacity
-        className={`${
-          canSave ? "bg-blue-500" : "bg-gray-400"
-        } py-3 px-6 mt-2 rounded-lg items-center`}
+        className={`${canSave ? "bg-blue-500" : "bg-gray-400"
+          } py-3 px-6 mt-2 rounded-lg items-center`}
         onPress={handleUpdateOffer}
         disabled={!canSave}
       >
         <Text className="text-white font-bold text-lg">Valider</Text>
       </TouchableOpacity>
+      <Snackbar
+        visible={snackbar !== null}
+        onDismiss={() => setSnackbar(null)}
+        duration={2000}
+      >
+        {snackbar}
+      </Snackbar>
     </View>
   );
 }
