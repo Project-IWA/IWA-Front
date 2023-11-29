@@ -3,7 +3,7 @@ import { apiSlice } from "../../../api/apiSlice";
 import { RootState } from "../../../store";
 
 export const attributionsAdapter = createEntityAdapter({
-  selectId: (instance: Attribution) => instance.idAttribution as string,
+  selectId: (instance: Attribution) => `${instance.idOffre}-${instance.emailCandidat}` as string,
   sortComparer: false,
 });
 
@@ -32,11 +32,11 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           ...initialAttribution,
         },
       }),
-      invalidatesTags: [{ type: "Attribution", id: "LIST" }],
+      invalidatesTags: [{ type: "Attribution", id: "LIST" }, { type: "Offer", id: "LIST" },],
     }),
     updateAttribution: builder.mutation({
       query: (initialAttribution: Attribution) => ({
-        url: `${attributionMS}/attributions/${initialAttribution.idOffre}`,
+        url: `${attributionMS}/attributions/`,
         method: "PUT",
         body: {
           ...initialAttribution,
@@ -44,6 +44,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result: any, error: any, arg: any) => [
         { type: "Attribution", id: arg.id },
+        { type: "Offer", id: "LIST" },
       ],
     }),
     deleteAttribution: builder.mutation({

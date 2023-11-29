@@ -35,9 +35,9 @@ export default function Validation() {
       const logResult = await addNewUser({
         username,
         password,
-        formule,
-        dateDebut,
-        dateFin,
+        idFormule: formule,
+        dateDebutSouscription: dateDebut,
+        dateFinSouscription: dateFin,
         prenom,
         nom,
       }).unwrap();
@@ -72,7 +72,7 @@ export default function Validation() {
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" className="mt-4" />
       ) : (
-        <View className="items-center justify-center gap-4 mt-4 flex-row">
+        <View className="items-center justify-center gap-4 mt-4 flex-row mx-2">
           <TouchableOpacity
             className="bg-black py-3 px-6 rounded-lg flex-1"
             onPress={() => dispatch(setCurrentPage(2))}

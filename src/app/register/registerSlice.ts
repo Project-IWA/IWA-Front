@@ -17,7 +17,7 @@ const initialState: RegisteringState = {
     nom: "",
     prenom: "",
     currentPage: 0,
-    formule: "1",
+    formule: "",
     dateDebut,
     dateFin,
   },

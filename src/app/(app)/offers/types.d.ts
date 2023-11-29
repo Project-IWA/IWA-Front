@@ -1,4 +1,5 @@
 type AddOffre = {
+  idOffre?: string;
   emploi: string;
   description: string;
   dateDebut: Date;
@@ -23,7 +24,7 @@ type Offre = {
   nombreCandidats: number;
   idUser: string;
   idEtablissement: string;
-  idTypeEmploi: string;
+  typeEmploi: TypeEmploi;
   idOffre: string;
   attributions: Attribution[];
 };

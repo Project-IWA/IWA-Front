@@ -30,7 +30,7 @@ export default function Offer() {
 
   return (
     <ScrollView>
-      <View className="p-6 m-4 bg-gray-200 rounded-lg shadow-black flex flex-col mt-16 flex-wrap">
+      <View className="p-6 m-4 bg-gray-200 rounded-lg shadow-black flex flex-col mt-16">
         <Text className="text-3xl font-bold mb-4">{offer.emploi}</Text>
         <View className="flex flex-row mb-2">
           <Text className="text-lg font-semibold text-gray-600 mr-2">
@@ -76,7 +76,7 @@ export default function Offer() {
           href={`/offers/candidates/${offerId}`}
           className="bg-blue-500 py-3 px-6 rounded-lg text-white text-center font-bold text-lg mt-2"
         >
-          Voir le(s) {offer.nombreCandidats} candidat(s)
+          Voir le(s) candidat(s)
         </Link>
         {!update ? (
           <Button

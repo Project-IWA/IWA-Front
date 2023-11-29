@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
@@ -40,7 +40,7 @@ export default function Offer() {
 
   async function handleDeleteUser() {
     try {
-      await deleteUser({ idUser: notification?.idUser }).unwrap();
+      await deleteUser({ userId: notification?.idUser }).unwrap();
       setSnackbar("Utilisateur supprimé !");
     } catch (err: any) {
       console.error(err.message);
@@ -56,6 +56,7 @@ export default function Offer() {
         etat: "Validée",
       });
       setSnackbar("Notification mise à jour !");
+      router.push("/notifications");
     } catch (err: any) {
       console.error("Erreur", err.message);
       setSnackbar("Erreur, notification non mise à jour");
@@ -73,7 +74,7 @@ export default function Offer() {
   return (
     <View className="p-6 m-4 bg-gray-200 rounded-lg shadow-black flex flex-col mt-8">
       <Text className="text-3xl font-bold mb-4">
-        {`${notification.type} de ${user.username} ${user.email} ${user.prenom} ${user.nom}`}
+        {`${notification.type} de ${user.prenom} ${user.nom}`}
       </Text>
       <View className="flex flex-row mb-2">
         <Text className="text-lg font-semibold text-gray-600 mr-2">Etat :</Text>

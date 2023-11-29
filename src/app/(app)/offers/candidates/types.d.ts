@@ -5,7 +5,15 @@ type Matching = {
 };
 
 type Candidat = {
-  email: string;
-  firstName: string;
-  lastName: string;
-};
+  email:string;
+  firstName:string;
+  lastName:string;
+  gender: number;
+  birthDate: string;
+  citizenship:string;
+  phone:string;
+  photo:string;
+  cv:string;
+  shortBio: string;
+  etat: string;
+}

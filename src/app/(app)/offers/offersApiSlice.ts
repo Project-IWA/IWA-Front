@@ -14,7 +14,7 @@ const recrutementsMS = "/recrutements-api/api";
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getOffers: builder.query({
-      query: () => `${recrutementsMS}/offres`,
+      query: () => `${recrutementsMS}/offres/user`,
       transformResponse: (responseData: any) => {
         return offersAdapter.setAll(initialState, responseData);
       },
@@ -24,7 +24,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     addNewOffer: builder.mutation({
-      query: (initialOffer: Offre) => ({
+      query: (initialOffer: AddOffre) => ({
         url: `${recrutementsMS}/offres`,
         method: "POST",
         body: {
@@ -34,7 +34,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: "Offer", id: "LIST" }],
     }),
     updateOffer: builder.mutation({
-      query: (initialOffer: Offre) => ({
+      query: (initialOffer: AddOffre) => ({
         url: `${recrutementsMS}/offres/${initialOffer.idOffre}`,
         method: "PUT",
         body: {

@@ -9,3 +9,13 @@ type Registering = {
   prenom: string;
   currentPage: number;
 };
+
+type PostRegister = {
+  username: string;
+  password: string;
+  idFormule: string;
+  prenom: string;
+  nom: string;
+  dateDebutSouscription: Date;
+  dateFinSouscription: Date;
+}

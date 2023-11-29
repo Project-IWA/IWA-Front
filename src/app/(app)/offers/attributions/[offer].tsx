@@ -41,6 +41,7 @@ export default function Attributions() {
   async function handleUpdateAttribution() {
     try {
       await updateAttribution(note).unwrap();
+      setSnackbar("Candidat noté !")
       setNote(null);
       router.push("/offers");
     } catch (err: any) {
@@ -54,7 +55,7 @@ export default function Attributions() {
   }
 
   if (!offer) {
-    return <Text>Erreur, offre non trouvée</Text>;
+    return <Loading text="Erreur, offre non trouvée" />;
   }
 
   return (
@@ -62,20 +63,20 @@ export default function Attributions() {
       <Text className="text-2xl font-bold mb-4">
         Candidats choisis pour cette offre
       </Text>
-      <FlatList<UpdateAttribution>
+      <FlatList<Attribution>
         className="w-full"
         data={offer.attributions}
-        keyExtractor={(item: UpdateAttribution) => item.emailCandidat}
+        keyExtractor={(item: Attribution) => item.emailCandidat}
         renderItem={({ item }) => (
           <View className="p-2 m-2 bg-gray-200 rounded-lg shadow-black flex flex-col">
             <Text className="text-xl font-bold mb-2">{item.emailCandidat}</Text>
             <View className="flex flex-row">
               <Text className="text-lg font-semibold text-gray-600 mr-2">
-                Etat:
+                Bio:
               </Text>
-              <Text className="text-lg text-gray-900">{item.etat}</Text>
+              <Text className="text-lg text-gray-900">{item.candidat.shortBio}</Text>
             </View>
-            {item.note && (
+            {item.note !== undefined || item.note !== null && (
               <View className="flex flex-row mt-2">
                 <Text className="text-lg font-semibold text-gray-600 mr-2">
                   Note:
@@ -83,7 +84,7 @@ export default function Attributions() {
                 <Text className="text-lg text-gray-900">{item.note}</Text>
               </View>
             )}
-            {item.avis && (
+            {item.avis !== undefined && item.avis !== null && (
               <View className="flex flex-row mt-2">
                 <Text className="text-lg font-semibold text-gray-600 mr-2">
                   Avis:

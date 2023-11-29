@@ -3,7 +3,7 @@ import { apiSlice } from "../../../api/apiSlice";
 import { RootState } from "../../../store";
 
 export const matchingsAdapter = createEntityAdapter({
-  selectId: (instance: Matching) => instance.idMatching as string,
+  selectId: (instance: Candidat) => instance.email as string,
   sortComparer: false,
 });
 
@@ -15,7 +15,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     getMatchings: builder.query({
       query: ({ offerId }: { offerId: string }) =>
-        `${matchingMS}/matched-candidats/${offerId}`,
+        `${matchingMS}/offres/matched-candidats/${offerId}`,
       transformResponse: (responseData: any) => {
         return matchingsAdapter.setAll(initialState, responseData);
       },
@@ -30,18 +30,14 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 export const { useGetMatchingsQuery, useDeleteMatchingMutation } =
   extendedApiSlice;
 
-export const selectMatchingsResult =
-  extendedApiSlice.endpoints.getMatchings.select();
+export const selectMatchingsResult = (offerId: string) =>
+  extendedApiSlice.endpoints.getMatchings.select({offerId});
 
-const selectMatchingsData = createSelector(
-  selectMatchingsResult,
+const selectMatchingsData = (offerId: string) => createSelector(
+  selectMatchingsResult(offerId),
   (matchingsResult: any) => matchingsResult.data
 );
 
-export const {
-  selectAll: selectAllMatchings,
-  selectById: selectMatchingById,
-  selectIds: selectMatchingIds,
-} = matchingsAdapter.getSelectors(
-  (state: RootState) => selectMatchingsData(state) ?? initialState
-);
+export const selectAllMatchings = (state: RootState, offerId: string) => matchingsAdapter.getSelectors(
+  (state: RootState) => selectMatchingsData(offerId)(state) ?? initialState
+).selectAll(state);

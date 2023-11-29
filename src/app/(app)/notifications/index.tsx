@@ -28,12 +28,12 @@ export default function Notifications() {
         keyExtractor={(item: Notif) => item.idNotification as string}
         renderItem={({ item }) => (
           <TouchableOpacity
-            className={`p-4 rounded-lg shadow-md mx-4 my-2 ${
-              item.etat === "Validée" ? "bg-gray-500" : "bg-gray-200"
-            }`}
+            className={`p-4 rounded-lg shadow-md mx-4 my-2 ${item.etat === "Validée" ? "bg-gray-500" : "bg-gray-200"
+              }`}
             onPress={() => router.push(`/notifications/${item.idNotification}`)}
+            disabled={item.etat === "Validée"}
           >
-            <Text className="text-xl font-semibold">{`${item.type} de compte`}</Text>
+            <Text className="text-xl font-semibold text-center">{`${item.type} de compte`}</Text>
           </TouchableOpacity>
         )}
       />

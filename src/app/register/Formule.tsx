@@ -30,7 +30,6 @@ export default function Formule() {
   if (isLoading) {
     return <Loading text="Loading formules..." />;
   }
-
   return (
     <View className="flex-1 items-center justify-center">
       <Text className="text-2xl font-bold mb-4">Formule</Text>
@@ -46,6 +45,7 @@ export default function Formule() {
         mt={1}
         onValueChange={(e) => dispatch(setFormule(e))}
       >
+        <Select.Item label="" value="" />
         {formules.map((form: Formule) => (
           <Select.Item label={form.typeFormule} value={form.idFormule} />
         ))}
@@ -60,9 +60,8 @@ export default function Formule() {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className={`${
-            canSave ? "bg-blue-500" : "bg-gray-400"
-          } py-3 px-6 rounded-lg`}
+          className={`${canSave ? "bg-blue-500" : "bg-gray-400"
+            } py-3 px-6 rounded-lg`}
           onPress={() => dispatch(setCurrentPage(3))}
           disabled={!canSave}
         >

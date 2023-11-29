@@ -11,14 +11,14 @@ import Loading from "../../../../ui/Loading";
 import { useGetOffersQuery } from "../offersApiSlice";
 
 export default function Matchings() {
-  const { offerId } = useLocalSearchParams() as { offerId: string };
+  const { offer: offerId } = useLocalSearchParams() as { offer: string };
 
   const { isLoading: loadingOffre } = useGetOffersQuery();
 
   const { isLoading: loadingMatchings } = useGetMatchingsQuery({ offerId });
 
-  const matchings: Matching[] = useSelector((state: RootState) =>
-    selectAllMatchings(state)
+  const matchings: Candidat[] = useSelector((state: RootState) =>
+    selectAllMatchings(state, offerId)
   );
 
   const [dialogAccept, setDialogAccept] = useState<AddAttribution | null>(null);
@@ -42,23 +42,25 @@ export default function Matchings() {
   }
 
   return (
-    <View className="flex-1 items-center justify-center mt-12 flex-wrap p-2">
+    <View className="flex-1 items-center justify-center mt-12">
       <Text className="text-2xl font-bold mb-4">
         Candidats pour cette offre
       </Text>
-      <FlatList<Matching>
+      <FlatList<Candidat>
         className="w-full"
         data={matchings}
-        keyExtractor={(item: Matching) => item.emailCandidat}
+        keyExtractor={(item: Candidat) => item.email}
         renderItem={({ item }) => (
           <View className="p-2 m-2 bg-gray-200 rounded-lg shadow-black flex flex-col">
-            <Text className="text-xl font-bold">{item.emailCandidat}</Text>
+            <Text className="text-xl font-bold">{item.email}</Text>
+            <Text>{item.firstName} {item.lastName}</Text>
+            <Text>{item.shortBio}</Text>
             <Btn
               onPress={() =>
                 setDialogAccept({
                   etat: "En cours",
-                  idOffre: item.idOffre,
-                  emailCandidat: item.emailCandidat,
+                  idOffre: offerId,
+                  emailCandidat: item.email,
                 })
               }
               className="py-3 mt-2 px-6 rounded-lg bg-blue-500"
